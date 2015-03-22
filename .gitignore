@@ -2,6 +2,9 @@
 [Bb]in/
 [Oo]bj/
 
+# roslyn (https://stackoverflow.com/questions/28144621/visual-studio-2015-should-i-commit-project-sln-ide-files-into-git)
+**.ide/
+
 # btsync
 .sync
 
