@@ -5,15 +5,9 @@ VisualStudioVersion = 14.0.22310.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarkdownApp", "MarkdownApp", "{75FA21D9-F76F-4261-A223-F28502B6ECDA}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MarkdownApp.Shared", "MarkdownApp\MarkdownApp.Shared\MarkdownApp.Shared.shproj", "{B37FB640-FF2F-49D1-95A9-3790AE3B0D1C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownApp.Windows", "MarkdownApp\MarkdownApp.Windows\MarkdownApp.Windows.csproj", "{90E3FBC4-72D1-49C5-8A6E-825B89D7CA49}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		MarkdownApp\MarkdownApp.Shared\MarkdownApp.Shared.projitems*{90e3fbc4-72d1-49c5-8a6e-825b89d7ca49}*SharedItemsImports = 4
-		MarkdownApp\MarkdownApp.Shared\MarkdownApp.Shared.projitems*{b37fb640-ff2f-49d1-95a9-3790ae3b0d1c}*SharedItemsImports = 13
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
