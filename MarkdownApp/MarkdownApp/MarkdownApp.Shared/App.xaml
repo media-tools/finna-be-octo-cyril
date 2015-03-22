@@ -8,10 +8,10 @@
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Dark">
-                    <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#004FB2" />
+                    <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#244FB2" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Light">
-                    <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#004FB2" />
+                    <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#244FB2" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>

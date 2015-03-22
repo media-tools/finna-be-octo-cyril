@@ -34,18 +34,15 @@ namespace MarkdownApp
         private async void OpenButton_Click(object sender, RoutedEventArgs e)
         {
             // Open a text file.
-            Windows.Storage.Pickers.FileOpenPicker open =
-                new Windows.Storage.Pickers.FileOpenPicker();
-            open.SuggestedStartLocation =
-                Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
+            Windows.Storage.Pickers.FileOpenPicker open = new Windows.Storage.Pickers.FileOpenPicker();
+            open.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
             open.FileTypeFilter.Add(".rtf");
 
             Windows.Storage.StorageFile file = await open.PickSingleFileAsync();
 
             if (file != null)
             {
-                Windows.Storage.Streams.IRandomAccessStream randAccStream =
-                    await file.OpenAsync(Windows.Storage.FileAccessMode.Read);
+                Windows.Storage.Streams.IRandomAccessStream randAccStream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read);
 
                 // Load the file into the Document property of the RichEditBox.
                 editor.Document.LoadFromStream(Windows.UI.Text.TextSetOptions.FormatRtf, randAccStream);
@@ -74,8 +71,7 @@ namespace MarkdownApp
                 // finish making changes and call CompleteUpdatesAsync.
                 CachedFileManager.DeferUpdates(file);
                 // write to file
-                Windows.Storage.Streams.IRandomAccessStream randAccStream =
-                    await file.OpenAsync(Windows.Storage.FileAccessMode.ReadWrite);
+                Windows.Storage.Streams.IRandomAccessStream randAccStream = await file.OpenAsync(FileAccessMode.ReadWrite);
 
                 editor.Document.SaveToStream(Windows.UI.Text.TextGetOptions.FormatRtf, randAccStream);
 
@@ -84,8 +80,7 @@ namespace MarkdownApp
                 FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
                 if (status != FileUpdateStatus.Complete)
                 {
-                    Windows.UI.Popups.MessageDialog errorBox =
-                        new Windows.UI.Popups.MessageDialog("File " + file.Name + " couldn't be saved.");
+                    Windows.UI.Popups.MessageDialog errorBox = new Windows.UI.Popups.MessageDialog("File " + file.Name + " couldn't be saved.");
                     await errorBox.ShowAsync();
                 }
             }
