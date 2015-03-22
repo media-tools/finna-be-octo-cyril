@@ -6,6 +6,20 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    
+    <Page.Resources>
+        <Style x:Key="BaseStatusStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI Semilight"/>
+            <Setter Property="FontSize" Value="14.667"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+        <Style x:Key="StatusStyle" BasedOn="{StaticResource BaseStatusStyle}" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Green"/>
+        </Style>
+        <Style x:Key="ErrorStyle" BasedOn="{StaticResource BaseStatusStyle}" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Blue"/>
+        </Style>
+    </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
@@ -17,6 +31,6 @@
             <Button Content="Save file" Click="SaveButton_Click"/>
         </StackPanel>
             
-        <RichEditBox x:Name="editor" Grid.Row="1"/>
+        <RichEditBox x:Name="editor" Grid.Row="1" CharacterSpacing="1" IsSpellCheckEnabled="True" IsTextPredictionEnabled="True" BorderThickness="5" BorderBrush="Black"/>
     </Grid>
 </Page>
