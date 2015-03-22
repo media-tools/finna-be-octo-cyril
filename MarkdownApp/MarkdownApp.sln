@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.22310.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarkdownApp", "MarkdownApp", "{75FA21D9-F76F-4261-A223-F28502B6ECDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownApp.Windows", "MarkdownApp\MarkdownApp.Windows\MarkdownApp.Windows.csproj", "{90E3FBC4-72D1-49C5-8A6E-825B89D7CA49}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownApp.Windows", "MarkdownApp.Windows\MarkdownApp.Windows.csproj", "{90E3FBC4-72D1-49C5-8A6E-825B89D7CA49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
