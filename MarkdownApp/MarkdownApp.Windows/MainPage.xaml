@@ -29,6 +29,7 @@
         <StackPanel Orientation="Horizontal">
             <Button Content="Open file" Click="OpenButton_Click"/>
             <Button Content="Save file" Click="SaveButton_Click"/>
+            <Button Content="Test" Click="TestButton_Click"/>
         </StackPanel>
             
         <RichEditBox x:Name="editor" Grid.Row="1" CharacterSpacing="1" IsSpellCheckEnabled="True" IsTextPredictionEnabled="True" BorderThickness="5" BorderBrush="Black"/>
