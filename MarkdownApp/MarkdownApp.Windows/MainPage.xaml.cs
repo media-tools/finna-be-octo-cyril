@@ -50,7 +50,7 @@ namespace MarkdownApp
                 //IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
 
                 // load the file into the editor
-                editor.Text = await FileIO.ReadTextAsync(file);
+                editor.TextLF = await FileIO.ReadTextAsync(file);
             }
         }
 
@@ -89,7 +89,7 @@ namespace MarkdownApp
                 // open the file
                 // IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.ReadWrite);
 
-                await FileIO.WriteTextAsync(file, editor.Text);
+                await FileIO.WriteTextAsync(file, editor.TextLF);
 
                 // Let Windows know that we're finished changing the file so the 
                 // other app can update the remote version of the file.

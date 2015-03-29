@@ -162,8 +162,8 @@ namespace TextEditor.UI
                 countMultiLines += maxLineNumber - minLineNumber;
             }
 
-            builder.AppendLine("n" + text.Count<char>(c => c == '\n'));
-            builder.AppendLine("r" + text.Count<char>(c => c == '\r'));
+            // builder.AppendLine("n" + text.Count<char>(c => c == '\n'));
+            // builder.AppendLine("r" + text.Count<char>(c => c == '\r'));
 
             //for (int i = 1; i <= stop; i++)
             //    builder.AppendLine(i.ToString());
@@ -255,6 +255,18 @@ namespace TextEditor.UI
         }
 
         #endregion
+
+        public string TextLF
+        {
+            get
+            {
+                return Text.Replace('\r', '\n');
+            }
+            set
+            {
+                Text = value.Replace('\n', '\r');
+            }
+        }
 
         public string Text
         {
