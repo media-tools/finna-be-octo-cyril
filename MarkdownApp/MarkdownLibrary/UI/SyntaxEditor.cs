@@ -18,6 +18,7 @@
 // DEALINGS IN THE SOFTWARE.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -67,7 +68,7 @@ namespace TextEditor.UI
             if (oldValue != null)
             {
                 oldValue.TextChanged -= HandleTextViewTextChanged;
-                oldValue.KeyUp -= HandleTextViewKeyUp;                
+                oldValue.KeyUp -= HandleTextViewKeyUp;
             }
 
             if (newValue != null)
@@ -76,7 +77,7 @@ namespace TextEditor.UI
                 newValue.KeyUp += HandleTextViewKeyUp;
 
                 BindTextViewStyle();
-                RefreshLineNumbers(1);
+                RefreshLineNumbers(); // (1)
 
                 newValue.Paste += RequestLineNumberRedraw;
             }
@@ -84,7 +85,7 @@ namespace TextEditor.UI
 
         private void RequestLineNumberRedraw(object sender, object e)
         {
-            RefreshLineNumbers(Text.Count<char>(c => c == '\r'));
+            RefreshLineNumbers();
         }
 
         void BindTextViewStyle()
@@ -97,7 +98,7 @@ namespace TextEditor.UI
 
         void BindTextViewerScrollViewer()
         {
-            var g = VisualTreeHelper.GetChild(TextView, 0) as Grid;            
+            var g = VisualTreeHelper.GetChild(TextView, 0) as Grid;
             if (g != null)
             {
                 int max = VisualTreeHelper.GetChildrenCount(g);
@@ -108,14 +109,14 @@ namespace TextEditor.UI
                     {
                         ele.ViewChanged += (s, e) =>
                         {
-                            RefreshLineNumbers(Text.Count<char>(c => c == '\r'));
+                            RefreshLineNumbers();
                             scrollViewer.ChangeView(ele.HorizontalOffset, ele.VerticalOffset, null, true);
                         };
                     }
                 }
             }
         }
-        
+
         #endregion
 
         #region Line Number
@@ -129,13 +130,63 @@ namespace TextEditor.UI
             set { SetValue(LineNumberBlockProperty, value); }
         }
 
-        void RefreshLineNumbers(int stop)
+        void RefreshLineNumbers()
         {
             var builder = new StringBuilder();
-            for (int i = 1; i <= stop; i++)
-                builder.AppendLine(i.ToString());
+            string text = Text;
+
+            int previousLineNumber = -1;
+            int previousVerticalHeight = 0;
+            int countMultiLines = 0;
+            foreach (int position in GetPositions(text, "\r"))
+            {
+                var range = TextView.Document.GetRange(position, position + 1);
+                Windows.Foundation.Rect rectangle;
+                int hit;
+                range.GetRect(PointOptions.NoHorizontalScroll, out rectangle, out hit);
+
+                int verticalHeight = (int)(rectangle.Bottom + rectangle.Top) / 2;
+                int maxLineNumber = (int)Math.Floor(verticalHeight / rectangle.Height);
+                int minLineNumber = previousLineNumber + 1;
+
+                int printableLineNumber = minLineNumber + 1 - countMultiLines; // starts with 1 and excludes addtional line numbers from multi lines
+                builder.AppendLine(printableLineNumber + "");
+                for (int i = minLineNumber; i < maxLineNumber; i++)
+                {
+                    builder.AppendLine("");
+                }
+                //builder.AppendLine((minLineNumber + 1) + " (" + (rectangle.Bottom + rectangle.Top) / 2 + "/" + rectangle.Height + ")");
+
+                previousLineNumber = maxLineNumber;
+                previousVerticalHeight = verticalHeight;
+                countMultiLines += maxLineNumber - minLineNumber;
+            }
+
+            builder.AppendLine("n" + text.Count<char>(c => c == '\n'));
+            builder.AppendLine("r" + text.Count<char>(c => c == '\r'));
+
+            //for (int i = 1; i <= stop; i++)
+            //    builder.AppendLine(i.ToString());
 
             LineNumberBlock.Text = builder.ToString();
+        }
+
+        public static IEnumerable<int> GetPositions(string source, string searchString)
+        {
+            int len = searchString.Length;
+            int start = -len;
+            while (true)
+            {
+                start = source.IndexOf(searchString, start + len);
+                if (start == -1)
+                {
+                    break;
+                }
+                else
+                {
+                    yield return start;
+                }
+            }
         }
 
         #endregion
@@ -211,8 +262,8 @@ namespace TextEditor.UI
             {
                 string text = string.Empty;
 
-                if (TextView != null)                
-                    TextView.Document.GetText(TextGetOptions.None, out text);                
+                if (TextView != null)
+                    TextView.Document.GetText(TextGetOptions.None, out text);
 
                 return text;
             }
@@ -220,8 +271,8 @@ namespace TextEditor.UI
             {
                 if (TextView != null)
                 {
-                    RefreshLineNumbers(value.Count<char>(c => c == '\r'));
                     TextView.Document.SetText(TextSetOptions.None, value);
+                    RefreshLineNumbers();
                 }
             }
         }
@@ -233,7 +284,7 @@ namespace TextEditor.UI
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
                 string text = Text;
-                RefreshLineNumbers(text.Count<char>(c => c == '\r'));
+                RefreshLineNumbers();
 
                 var indentLevel = GetIndentLevel(ref text);
                 e.Handled = true;
@@ -245,7 +296,7 @@ namespace TextEditor.UI
             }
             else if (TextView.Document.Selection.Length > 0 ||
                 e.Key == Windows.System.VirtualKey.Back)
-                RefreshLineNumbers(Text.Count<char>(c => c == '\r'));
+                RefreshLineNumbers();
         }
 
         int GetIndentLevel(ref string text)
@@ -256,10 +307,10 @@ namespace TextEditor.UI
 
             try
             {
-                return SyntaxLanguage.IndentationProvider.GuessIndentLevel(text, TextView.Document.Selection.EndPosition);            
+                return SyntaxLanguage.IndentationProvider.GuessIndentLevel(text, TextView.Document.Selection.EndPosition);
             }
             catch (Exception)
-            {  }
+            { }
 
             return 0;
         }
@@ -272,7 +323,7 @@ namespace TextEditor.UI
         {
             base.OnApplyTemplate();
 
-            if (TextView != null)            
+            if (TextView != null)
                 BindTextViewStyle();
 
             scrollViewer = GetTemplateChild("PART_ScrollViewer") as ScrollViewer;
