@@ -56,7 +56,7 @@ namespace MarkdownApp
                     new CoreDispatcherPriority(), () =>
                     {
 
-                        RtfConversion.bla(editor.Document);
+                        RtfConversion.ToHtml(editor.Document);
                     });
         }
 
