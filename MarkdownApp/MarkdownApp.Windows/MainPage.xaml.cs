@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MarkdownApp.Languages;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,6 +9,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Provider;
+using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -27,9 +29,11 @@ namespace MarkdownApp
     /// </summary>
     public sealed partial class MainPage : Page
     {
+
         public MainPage()
         {
             this.InitializeComponent();
+            editor.SyntaxLanguage = new TextEditor.Languages.PythonSyntaxLanguage();
         }
 
         private async void OpenButton_Click(object sender, RoutedEventArgs e)
@@ -37,16 +41,16 @@ namespace MarkdownApp
             // Open a text file.
             Windows.Storage.Pickers.FileOpenPicker open = new Windows.Storage.Pickers.FileOpenPicker();
             open.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
-            open.FileTypeFilter.Add(".rtf");
+            LanguageSupport.AddLanguageSupport(open);
 
             Windows.Storage.StorageFile file = await open.PickSingleFileAsync();
 
             if (file != null)
             {
-                Windows.Storage.Streams.IRandomAccessStream randAccStream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read);
+                //IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
 
-                // Load the file into the Document property of the RichEditBox.
-                editor.Document.LoadFromStream(Windows.UI.Text.TextSetOptions.FormatRtf, randAccStream);
+                // load the file into the editor
+                editor.Text = await FileIO.ReadTextAsync(file);
             }
         }
 
@@ -56,7 +60,7 @@ namespace MarkdownApp
                     new CoreDispatcherPriority(), () =>
                     {
 
-                        RtfConversion.ToHtml(editor.Document);
+                        ///RtfConversion.ToHtml(editor.Document);
                     });
         }
 
@@ -70,7 +74,7 @@ namespace MarkdownApp
             savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
 
             // Dropdown of file types the user can save the file as
-            savePicker.FileTypeChoices.Add("Rich Text", new List<string>() { ".rtf" });
+            LanguageSupport.AddLanguageSupport(savePicker);
 
             // Default file name if the user does not type one in or select a file to replace
             savePicker.SuggestedFileName = "New Document";
@@ -81,10 +85,11 @@ namespace MarkdownApp
                 // Prevent updates to the remote version of the file until we 
                 // finish making changes and call CompleteUpdatesAsync.
                 CachedFileManager.DeferUpdates(file);
-                // write to file
-                Windows.Storage.Streams.IRandomAccessStream randAccStream = await file.OpenAsync(FileAccessMode.ReadWrite);
 
-                editor.Document.SaveToStream(Windows.UI.Text.TextGetOptions.FormatRtf, randAccStream);
+                // open the file
+                // IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.ReadWrite);
+
+                await FileIO.WriteTextAsync(file, editor.Text);
 
                 // Let Windows know that we're finished changing the file so the 
                 // other app can update the remote version of the file.
@@ -128,6 +133,10 @@ namespace MarkdownApp
             {
                 //VisualStateManager.GoToState(this, state.State, transitions);
             }
+        }
+        private void HandleTextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }
