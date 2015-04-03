@@ -79,7 +79,7 @@ namespace TextEditor.UI
                 BindTextViewStyle();
                 RefreshLineNumbers(); // (1)
 
-                newValue.Paste += RequestLineNumberRedraw;
+                // newValue.Paste += RequestLineNumberRedraw;
             }
         }
 
@@ -138,6 +138,7 @@ namespace TextEditor.UI
             int previousLineNumber = -1;
             int previousVerticalHeight = 0;
             int countMultiLines = 0;
+            double betterLineHeight = -1;
             foreach (int position in GetPositions(text, "\r"))
             {
                 var range = TextView.Document.GetRange(position, position + 1);
@@ -145,17 +146,23 @@ namespace TextEditor.UI
                 int hit;
                 range.GetRect(PointOptions.NoHorizontalScroll, out rectangle, out hit);
 
-                int verticalHeight = (int)(rectangle.Bottom + rectangle.Top) / 2;
-                int maxLineNumber = (int)Math.Floor(verticalHeight / rectangle.Height);
+                if (betterLineHeight == -1)
+                    betterLineHeight = (double)rectangle.Height;
+
+                int verticalHeight = (int)(rectangle.Top);
+                int maxLineNumber = (int)Math.Round(verticalHeight / betterLineHeight);
                 int minLineNumber = previousLineNumber + 1;
+
+                if (maxLineNumber > 0)
+                    betterLineHeight = (double)verticalHeight / (double)maxLineNumber;
 
                 int printableLineNumber = minLineNumber + 1 - countMultiLines; // starts with 1 and excludes addtional line numbers from multi lines
                 builder.AppendLine(printableLineNumber + "");
+                //builder.AppendLine(printableLineNumber + " (" + verticalHeight + "/" + betterLineHeight + "="+ verticalHeight / betterLineHeight + "~"+ maxLineNumber + ")");
                 for (int i = minLineNumber; i < maxLineNumber; i++)
                 {
                     builder.AppendLine("");
                 }
-                //builder.AppendLine((minLineNumber + 1) + " (" + (rectangle.Bottom + rectangle.Top) / 2 + "/" + rectangle.Height + ")");
 
                 previousLineNumber = maxLineNumber;
                 previousVerticalHeight = verticalHeight;
@@ -306,9 +313,12 @@ namespace TextEditor.UI
                 var x = TextView.Document.Selection.StartPosition + indentLevel;
                 TextView.Document.Selection.SetRange(x, x);
             }
+            /*
             else if (TextView.Document.Selection.Length > 0 ||
-                e.Key == Windows.System.VirtualKey.Back)
+                e.Key == Windows.System.VirtualKey.Back) {
                 RefreshLineNumbers();
+            }
+            */
         }
 
         int GetIndentLevel(ref string text)
