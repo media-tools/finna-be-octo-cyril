@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -67,8 +68,8 @@ namespace MarkdownApp
 
         private async void OutputView_Loaded(object sender, RoutedEventArgs e)
         {
-            Markdown md = new Markdown(editor.TextLF);
-            string html = md.HTML;
+            string markdownCode = editor.TextLF;
+            string html = await Markdown.MarkdownToHTML(markdownCode: markdownCode);
             OutputView.NavigateToString(html);
         }
 
