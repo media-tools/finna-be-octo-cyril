@@ -1,4 +1,5 @@
 ﻿using MarkdownApp.Languages;
+using MarkdownLibrary;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -66,7 +67,9 @@ namespace MarkdownApp
 
         private async void OutputView_Loaded(object sender, RoutedEventArgs e)
         {
-            OutputView.NavigateToString("<b>F</b>uck");
+            Markdown md = new Markdown(editor.TextLF);
+            string html = md.HTML;
+            OutputView.NavigateToString(html);
         }
 
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
