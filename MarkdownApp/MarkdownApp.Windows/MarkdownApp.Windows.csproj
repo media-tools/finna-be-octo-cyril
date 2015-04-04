@@ -107,6 +107,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <ProjectReference Include="..\CodeEditorLibrary\CodeEditorLibrary.csproj">
+      <Project>{0d6d10e7-ebd2-4556-a863-19dcf6162d18}</Project>
+      <Name>CodeEditorLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MarkdownLibrary\MarkdownLibrary.csproj">
       <Project>{2ee6756c-6cea-4107-9fe8-fb5b006a07ed}</Project>
       <Name>MarkdownLibrary</Name>
