@@ -64,6 +64,11 @@ namespace MarkdownApp
                     });
         }
 
+        private async void OutputView_Loaded(object sender, RoutedEventArgs e)
+        {
+            OutputView.NavigateToString("<b>F</b>uck");
+        }
+
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             //if (((ApplicationView.Value != ApplicationViewState.Snapped) ||

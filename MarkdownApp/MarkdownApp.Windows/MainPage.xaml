@@ -11,7 +11,7 @@
 
     <Page.Resources>
         <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        
+
         <Style x:Key="BaseStatusStyle" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Segoe UI Semilight"/>
             <Setter Property="FontSize" Value="14.667"/>
@@ -23,6 +23,33 @@
         <Style x:Key="ErrorStyle" BasedOn="{StaticResource BaseStatusStyle}" TargetType="TextBlock">
             <Setter Property="Foreground" Value="Blue"/>
         </Style>
+
+        <Storyboard x:Name="ShowOutputView">
+            <DoubleAnimation Duration="0:0:2" From="0" To="200" Storyboard.TargetProperty="(UIElement.Width)" Storyboard.TargetName="outputView" d:IsOptimized="True">
+                <DoubleAnimation.EasingFunction>
+                    <CircleEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+
+        <Flyout x:Key="SharedFlyoutResource">
+            <Flyout.FlyoutPresenterStyle>
+                <Style TargetType="FlyoutPresenter">
+                    <Setter Property="ScrollViewer.ZoomMode" Value="Enabled"/>
+                    <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="MinHeight" Value="600"/>
+                    <Setter Property="MinWidth" Value="600"/>
+                </Style>
+            </Flyout.FlyoutPresenterStyle>
+            <Grid HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <WebView x:Name="OutputView" HorizontalAlignment="Stretch" DefaultBackgroundColor="White" Loaded="OutputView_Loaded" />
+            </Grid>
+        </Flyout>
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -31,25 +58,29 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
-            <Button Content="Open file" Click="OpenButton_Click"/>
-            <Button Content="Save file" Click="SaveButton_Click"/>
-            <Button Content="Test" Click="TestButton_Click"/>
+            <Button Content="Open file" Click="OpenButton_Click" />
+            <Button Content="Save file" Click="SaveButton_Click" />
+            <Button Content="Preview" Flyout="{StaticResource SharedFlyoutResource}" />
+            <Button Content="Test" Click="TestButton_Click" />
         </StackPanel>
 
         <!--<RichEditBox x:Name="editor" Grid.Row="1" CharacterSpacing="1" IsSpellCheckEnabled="True" IsTextPredictionEnabled="True" BorderThickness="5" BorderBrush="Black"/>
 -->
-        
+
         <Border Grid.Row="1" Margin="0" BorderThickness="0" BorderBrush="LightGray">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                
-                <ui:SyntaxEditor x:Name="editor" FontFamily="Consolas" BorderBrush="LightGray" BorderThickness="3,0,0,0">
+
+                <ui:SyntaxEditor x:Name="editor" FontFamily="Consolas" BorderBrush="LightGray" BorderThickness="0,0,0,0">
                     <!--<ui:SyntaxEditor.SyntaxLanguage>
                         <lang:PythonSyntaxLanguage />
                     </ui:SyntaxEditor.SyntaxLanguage>-->
                 </ui:SyntaxEditor>
+
+
             </Grid>
         </Border>
     </Grid>
