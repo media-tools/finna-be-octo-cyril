@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
-  <Identity Name="63030tobiasschulz.Markdown" Publisher="CN=CC6F6475-7A49-47D0-81D4-DEB73B0E908F" Version="1.1.0.12" />
+  <Identity Name="63030tobiasschulz.Markdown" Publisher="CN=CC6F6475-7A49-47D0-81D4-DEB73B0E908F" Version="1.1.0.11" />
   <Properties>
     <DisplayName>Markdown</DisplayName>
     <PublisherDisplayName>tobiasschulz</PublisherDisplayName>

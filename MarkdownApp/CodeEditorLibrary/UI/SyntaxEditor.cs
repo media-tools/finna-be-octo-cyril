@@ -22,12 +22,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using TextEditor;
 using TextEditor.Lexer;
-using Windows.ApplicationModel.Core;
 using Windows.UI;
-using Windows.UI.Core;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -110,38 +107,14 @@ namespace TextEditor.UI
                     var ele = VisualTreeHelper.GetChild(g, i) as ScrollViewer;
                     if (ele != null && scrollViewer != null)
                     {
-                        ele.ViewChanged += ScrollViewer_ViewChanged_Delay;
+                        ele.ViewChanged += (s, e) =>
+                        {
+                            RefreshLineNumbers();
+                            scrollViewer.ChangeView(ele.HorizontalOffset, ele.VerticalOffset, null, true);
+                        };
                     }
                 }
             }
-        }
-
-        private bool ScrollViewer_ViewChanged_Running = false;
-
-        private void ScrollViewer_ViewChanged_Delay(object sender, ScrollViewerViewChangedEventArgs e)
-        {
-            var ele = sender as ScrollViewer;
-            if (!ScrollViewer_ViewChanged_Running)
-            {
-                ScrollViewer_ViewChanged_Running = true;
-                Task.Run(async ()=> {
-                    Debug.WriteLine("await 1000...");
-                    await Task.Delay(millisecondsDelay: 1000);
-                    ScrollViewer_ViewChanged(ele);
-                });
-            }
-        }
-
-        private void ScrollViewer_ViewChanged(ScrollViewer ele)
-        {
-            // RefreshLineNumbers();
-            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                () =>
-                {
-                    scrollViewer.ChangeView(ele.HorizontalOffset, ele.VerticalOffset, null, true);
-                    ScrollViewer_ViewChanged_Running = false;
-                });
-            
         }
 
         #endregion
@@ -158,18 +131,6 @@ namespace TextEditor.UI
         }
 
         void RefreshLineNumbers()
-        {
-            int stop = Text.Count<char>(c => c == '\r');
-
-            var builder = new StringBuilder();
-            for (int i = 1; i <= stop; i++)
-            {
-                builder.AppendLine(i.ToString());
-            }
-
-            LineNumberBlock.Text = builder.ToString();
-        }
-        void RefreshLineNumbersComplex()
         {
             var builder = new StringBuilder();
             string text = Text;
