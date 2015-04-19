@@ -32,7 +32,6 @@ namespace MarkdownApp
             if (b.HasValue && b.Value)
                 return Visibility.Visible;
 
-
             return Visibility.Collapsed;
         }
 
