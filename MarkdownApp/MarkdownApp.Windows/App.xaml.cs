@@ -25,10 +25,6 @@ namespace MarkdownApp
     /// </summary>
     public sealed partial class App : Application
     {
-#if WINDOWS_PHONE_APP
-        private TransitionCollection transitions;
-#endif
-
         /// <summary>
         /// Initialisiert das Singletonanwendungsobjekt. Dies ist die erste Zeile von erstelltem Code
         /// und daher das logische Äquivalent von main() bzw. WinMain().
@@ -47,13 +43,6 @@ namespace MarkdownApp
         /// <param name="e">Details über Startanforderung und -prozess.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-#if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-                this.DebugSettings.EnableFrameRateCounter = true;
-            }
-#endif
-
             Frame rootFrame = Window.Current.Content as Frame;
 
             // App-Initialisierung nicht wiederholen, wenn das Fenster bereits Inhalte enthält.
@@ -77,25 +66,11 @@ namespace MarkdownApp
 
             if (rootFrame.Content == null)
             {
-#if WINDOWS_PHONE_APP
-                // Entfernt die Drehkreuznavigation für den Start.
-                if (rootFrame.ContentTransitions != null)
-                {
-                    this.transitions = new TransitionCollection();
-                    foreach (var c in rootFrame.ContentTransitions)
-                    {
-                        this.transitions.Add(c);
-                    }
-                }
-
-                rootFrame.ContentTransitions = null;
-                rootFrame.Navigated += this.RootFrame_FirstNavigated;
-#endif
 
                 // Wenn der Navigationsstapel nicht wiederhergestellt wird, zur ersten Seite navigieren
                 // und die neue Seite konfigurieren, indem die erforderlichen Informationen als Navigationsparameter
                 // übergeben werden
-                if (!rootFrame.Navigate(typeof(MainPage), e.Arguments))
+                if (!rootFrame.Navigate(typeof(MarkdownEditPage), e.Arguments))
                 {
                     throw new Exception("Failed to create initial page");
                 }
@@ -104,20 +79,6 @@ namespace MarkdownApp
             // Sicherstellen, dass das aktuelle Fenster aktiv ist
             Window.Current.Activate();
         }
-
-#if WINDOWS_PHONE_APP
-        /// <summary>
-        /// Stellt die Inhaltsübergänge nach dem Start der App wieder her.
-        /// </summary>
-        /// <param name="sender">Das Objekt, an das der Handler angefügt wird.</param>
-        /// <param name="e">Details zum Navigationsereignis.</param>
-        private void RootFrame_FirstNavigated(object sender, NavigationEventArgs e)
-        {
-            var rootFrame = sender as Frame;
-            rootFrame.ContentTransitions = this.transitions ?? new TransitionCollection() { new NavigationThemeTransition() };
-            rootFrame.Navigated -= this.RootFrame_FirstNavigated;
-        }
-#endif
 
         /// <summary>
         /// Wird aufgerufen, wenn die Ausführung der Anwendung angehalten wird.  Der Anwendungszustand wird gespeichert,
