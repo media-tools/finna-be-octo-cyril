@@ -121,10 +121,12 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="BooleanToVisibilityConverter.cs" />
+    <Compile Include="FileInfo.cs" />
     <Compile Include="Common\NavigationHelper.cs" />
     <Compile Include="Common\ObservableDictionary.cs" />
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
+    <Compile Include="IDataItem.cs" />
     <Compile Include="ItemsPage1.xaml.cs">
       <DependentUpon>ItemsPage1.xaml</DependentUpon>
     </Compile>
