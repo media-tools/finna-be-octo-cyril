@@ -6,7 +6,11 @@
     RequestedTheme="Light">
 
     <Application.Resources>
+
+
         <ResourceDictionary>
+            <x:String x:Key="AppName">My Application</x:String>
+
             <ResourceDictionary.ThemeDictionaries>
                 <!--
                 <ResourceDictionary x:Key="Dark">

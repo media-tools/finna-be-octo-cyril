@@ -12,12 +12,7 @@
 
     <Page.Resources>
         <!-- Collection of items displayed by this page -->
-        <CollectionViewSource
-        x:Name="itemsViewSource"
-        Source="{Binding Items}"/>
-
-        <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
-        <x:String x:Key="AppName">My Application</x:String>
+        <CollectionViewSource x:Name="itemsViewSource" Source="{Binding Items}"/>
     </Page.Resources>
 
     <!--

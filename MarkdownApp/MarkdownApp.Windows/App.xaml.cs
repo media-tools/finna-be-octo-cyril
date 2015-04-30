@@ -70,7 +70,7 @@ namespace MarkdownApp
                 // Wenn der Navigationsstapel nicht wiederhergestellt wird, zur ersten Seite navigieren
                 // und die neue Seite konfigurieren, indem die erforderlichen Informationen als Navigationsparameter
                 // übergeben werden
-                if (!rootFrame.Navigate(typeof(MarkdownEditPage), e.Arguments))
+                if (!rootFrame.Navigate(typeof(ItemsPage1), e.Arguments))
                 {
                     throw new Exception("Failed to create initial page");
                 }

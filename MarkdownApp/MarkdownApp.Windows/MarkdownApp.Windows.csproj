@@ -121,6 +121,13 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="BooleanToVisibilityConverter.cs" />
+    <Compile Include="Common\NavigationHelper.cs" />
+    <Compile Include="Common\ObservableDictionary.cs" />
+    <Compile Include="Common\RelayCommand.cs" />
+    <Compile Include="Common\SuspensionManager.cs" />
+    <Compile Include="ItemsPage1.xaml.cs">
+      <DependentUpon>ItemsPage1.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Languages\LanguageSupport.cs" />
     <Compile Include="MarkdownEditPage.xaml.cs">
       <DependentUpon>MarkdownEditPage.xaml</DependentUpon>
@@ -151,6 +158,10 @@
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ItemsPage1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MarkdownEditPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
