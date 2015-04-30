@@ -12,7 +12,7 @@
 
     <Page.Resources>
         <!-- Collection of items displayed by this page -->
-        <CollectionViewSource x:Name="itemsViewSource" Source="{Binding Items}"/>
+        <CollectionViewSource x:Name="itemsViewSource" Source="{Binding Items, Mode=TwoWay}"/>
     </Page.Resources>
 
     <!--

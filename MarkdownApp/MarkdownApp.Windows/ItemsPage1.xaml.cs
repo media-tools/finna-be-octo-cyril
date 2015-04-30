@@ -1,6 +1,7 @@
 ﻿using MarkdownApp.Common;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -65,6 +66,10 @@ namespace MarkdownApp
         private void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
             // TODO: Assign a bindable collection of items to this.DefaultViewModel["Items"]
+
+            var items = new ObservableCollection<string>();
+            items.Add("test");
+            this.DefaultViewModel["Items"] = items;
         }
 
         #region NavigationHelper registration
