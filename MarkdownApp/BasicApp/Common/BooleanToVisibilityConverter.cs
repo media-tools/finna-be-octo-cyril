@@ -21,7 +21,7 @@ using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace MarkdownApp
+namespace BasicApp.Common
 {
     public class BooleanToVisibilityConverter : IValueConverter
     {

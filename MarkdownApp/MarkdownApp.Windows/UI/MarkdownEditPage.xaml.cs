@@ -1,5 +1,5 @@
-﻿using MarkdownApp.Languages;
-using MarkdownLibrary;
+﻿using Core.Markdown;
+using MarkdownApp.Languages;
 using System;
 using System.Collections.Generic;
 using System.IO;

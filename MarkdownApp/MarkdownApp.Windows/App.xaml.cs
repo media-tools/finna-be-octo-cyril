@@ -1,24 +1,10 @@
-﻿using Core.Common;
-using MarkdownApp.Common;
-using MarkdownApp.Storage;
+﻿using BasicApp.Common;
+using Core.Common;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 // Die Vorlage "Leere Anwendung" ist unter http://go.microsoft.com/fwlink/?LinkId=234227 dokumentiert.
@@ -135,7 +121,7 @@ namespace MarkdownApp
             p.ProtocolEvent = null;
             p.NavigateToFilePage();
             */
-            rootFrame.Navigate(typeof(MarkdownEditPage), null);
+            p.OpenFile(e);
 
             Log.Error("test: " + (rootFrame.Content as MarkdownEditPage));
             //var p = rootFrame.Content as MainPage;

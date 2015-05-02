@@ -1,4 +1,5 @@
-﻿<Page
+﻿<common:BasicPage
+    xmlns:common="using:BasicApp.Common"
     x:Class="MarkdownApp.MarkdownEditPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -10,7 +11,7 @@
     xmlns:lang="using:TextEditor.Languages" >
 
     <Page.Resources>
-        <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <common:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
         <Style x:Key="BaseStatusStyle" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Segoe UI Semilight"/>
@@ -85,4 +86,4 @@
             </Grid>
         </Border>
     </Grid>
-</Page>
+</common:BasicPage>

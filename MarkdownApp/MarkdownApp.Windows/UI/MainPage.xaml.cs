@@ -1,10 +1,11 @@
-﻿using MarkdownApp.Common;
+﻿using BasicApp.Common;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -97,5 +98,11 @@ namespace MarkdownApp
 
         #endregion
 
+
+        public void OpenFile(FileActivatedEventArgs e)
+        {
+           // navigationHelper.
+            //Navigate(typeof(MarkdownEditPage), null);
+        }
     }
 }

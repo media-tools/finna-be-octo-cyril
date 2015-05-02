@@ -109,25 +109,20 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <ProjectReference Include="..\BasicApp\BasicApp.csproj">
+      <Project>{41fde89f-261e-4c2f-87ae-1f04dc612dcf}</Project>
+      <Name>BasicApp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CodeEditorLibrary\CodeEditorLibrary.csproj">
       <Project>{0d6d10e7-ebd2-4556-a863-19dcf6162d18}</Project>
       <Name>CodeEditorLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MarkdownLibrary\MarkdownLibrary.csproj">
-      <Project>{2ee6756c-6cea-4107-9fe8-fb5b006a07ed}</Project>
-      <Name>MarkdownLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\BooleanToVisibilityConverter.cs" />
     <Compile Include="Files\FileInfo.cs" />
-    <Compile Include="Common\NavigationHelper.cs" />
-    <Compile Include="Common\ObservableDictionary.cs" />
-    <Compile Include="Common\RelayCommand.cs" />
-    <Compile Include="Common\SuspensionManager.cs" />
     <Compile Include="Files\IDataItem.cs" />
     <Compile Include="Storage\Files.cs" />
     <Compile Include="Storage\Settings.cs" />
@@ -179,8 +174,16 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="CommonMark, Version=0.1.0.0, Culture=neutral, PublicKeyToken=001ef8810438905d, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonMark.NET.0.9.0\lib\portable-net40+sl50+wp80+win+wpa81+MonoAndroid10+MonoTouch10\CommonMark.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Core.Markdown, Version=1.0.5601.2742, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Core.Markdown.0.1.1\lib\portable-net45+win\Core.Markdown.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Core.Portable, Version=1.0.5601.1814, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Core.Common.0.1.93\lib\portable-net40+win\Core.Portable.dll</HintPath>
+      <HintPath>..\packages\Core.Common.0.1.94\lib\portable-net40+win\Core.Portable.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
