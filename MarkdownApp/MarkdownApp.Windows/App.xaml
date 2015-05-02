@@ -9,7 +9,7 @@
 
 
         <ResourceDictionary>
-            <x:String x:Key="AppName">My Application</x:String>
+            <x:String x:Key="AppName">Markdown Editor</x:String>
 
             <ResourceDictionary.ThemeDictionaries>
                 <!--
@@ -22,6 +22,8 @@
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#2c8bce" />
 
+                    <SolidColorBrush x:Key="ApplicationForegroundThemeBrush" Color="#ffffff" />
+
                     <SolidColorBrush x:Key="ButtonBackgroundThemeBrush" Color="#bbffffff" />
                     <SolidColorBrush x:Key="ButtonBorderThemeBrush" Color="#33000000" />
                     <SolidColorBrush x:Key="ButtonDisabledBackgroundThemeBrush" Color="#bbcccccc" />
@@ -33,6 +35,13 @@
                     <SolidColorBrush x:Key="ButtonPressedBackgroundThemeBrush" Color="#ddffffff" />
                     <SolidColorBrush x:Key="ButtonPressedForegroundThemeBrush" Color="#FF333333" />
 
+                    <Style x:Key="HeaderTextBlockStyle" TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="48" />
+                        <Setter Property="FontFamily" Value="Segoe UI" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="FontWeight" Value="Light" />
+                    </Style>
+                    
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>

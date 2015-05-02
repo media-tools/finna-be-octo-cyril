@@ -14,5 +14,6 @@ namespace MarkdownApp
         string Description { get; }
         string ImagePath { get; }
         string Content { get; }
+        string BackgroundColor { get; }
     }
 }
