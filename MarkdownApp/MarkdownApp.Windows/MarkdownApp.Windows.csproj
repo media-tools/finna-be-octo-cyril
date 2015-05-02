@@ -19,6 +19,8 @@
     <AppxBundlePlatforms>neutral</AppxBundlePlatforms>
     <PackageCertificateThumbprint>003552A910501D490B9BB6036141DB021E050CCC</PackageCertificateThumbprint>
     <PackageCertificateKeyFile>MarkdownApp.Windows_StoreKey.pfx</PackageCertificateKeyFile>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -127,9 +129,10 @@
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
     <Compile Include="Files\IDataItem.cs" />
-    <Compile Include="Storage\Class1.cs" />
-    <Compile Include="UI\OpenPage.xaml.cs">
-      <DependentUpon>OpenPage.xaml</DependentUpon>
+    <Compile Include="Storage\Files.cs" />
+    <Compile Include="Storage\Settings.cs" />
+    <Compile Include="UI\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Languages\LanguageSupport.cs" />
     <Compile Include="UI\MarkdownEditPage.xaml.cs">
@@ -144,6 +147,10 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\fileicon-markdown.targetsize-16.png" />
+    <Content Include="Assets\fileicon-markdown.targetsize-256.png" />
+    <Content Include="Assets\fileicon-markdown.targetsize-32.png" />
+    <Content Include="Assets\fileicon-markdown.targetsize-48.png" />
     <Content Include="Assets\Logo.scale-100.png" />
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SmallLogo.scale-140.png" />
@@ -162,7 +169,7 @@
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="UI\OpenPage.xaml">
+    <Page Include="UI\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -172,8 +179,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Core.Portable, Version=1.0.5597.41794, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Core.Common.0.1.91\lib\portable-net40+win\Core.Portable.dll</HintPath>
+    <Reference Include="Core.Portable, Version=1.0.5601.1814, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Core.Common.0.1.93\lib\portable-net40+win\Core.Portable.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -185,6 +192,13 @@
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

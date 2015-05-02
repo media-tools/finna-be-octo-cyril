@@ -18,6 +18,30 @@
       <m2:VisualElements DisplayName="Markdown" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png" Description="Markdown" ForegroundText="light" BackgroundColor="#2c8bce" ToastCapable="false">
         <m2:SplashScreen Image="Assets\SplashScreen.png" />
       </m2:VisualElements>
+      <Extensions>
+        <Extension Category="windows.fileTypeAssociation">
+          <FileTypeAssociation Name="md">
+            <DisplayName>Markdown</DisplayName>
+            <Logo>Assets\fileicon-markdown.png</Logo>
+            <InfoTip>Markdown</InfoTip>
+            <EditFlags OpenIsSafe="true" />
+            <SupportedFileTypes>
+              <FileType ContentType="text/markdown">.md</FileType>
+            </SupportedFileTypes>
+          </FileTypeAssociation>
+        </Extension>
+        <Extension Category="windows.fileTypeAssociation">
+          <FileTypeAssociation Name="notes">
+            <DisplayName>Ink</DisplayName>
+            <Logo>Assets\fileicon-markdown.png</Logo>
+            <InfoTip>Ink</InfoTip>
+            <EditFlags OpenIsSafe="true" />
+            <SupportedFileTypes>
+              <FileType ContentType="text/x-notes">.notes</FileType>
+            </SupportedFileTypes>
+          </FileTypeAssociation>
+        </Extension>
+      </Extensions>
     </Application>
   </Applications>
   <Capabilities>

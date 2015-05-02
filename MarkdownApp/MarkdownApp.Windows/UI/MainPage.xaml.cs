@@ -23,7 +23,7 @@ namespace MarkdownApp
     /// A page that displays a collection of item previews.  In the Split Application this page
     /// is used to display and select one of the available groups.
     /// </summary>
-    public sealed partial class OpenPage : Page
+    public sealed partial class MainPage : Page
     {
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
@@ -45,7 +45,7 @@ namespace MarkdownApp
             get { return this.navigationHelper; }
         }
 
-        public OpenPage()
+        public MainPage()
         {
             this.InitializeComponent();
             this.navigationHelper = new NavigationHelper(this);
