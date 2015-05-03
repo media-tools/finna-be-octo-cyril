@@ -1,34 +1,35 @@
 ﻿using BasicApp.Common;
 using Core.Common;
-using Core.Markdown;
 using MarkdownApp.Languages;
 using MarkdownApp.Storage;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Provider;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// Die Elementvorlage "Leere Seite" ist unter http://go.microsoft.com/fwlink/?LinkId=234238 dokumentiert.
 
 namespace MarkdownApp.UI
 {
-    /// <summary>
-    /// Eine leere Seite, die eigenständig verwendet werden kann oder auf die innerhalb eines Frames navigiert werden kann.
-    /// </summary>
-    public sealed partial class MarkdownEditPage : BasicPage
+    public sealed partial class InkEditPage : BasicPage
     {
         public RecentFile CurrentFile;
 
-        public MarkdownEditPage()
+        public InkEditPage()
         {
             this.InitializeComponent();
-            editor.SyntaxLanguage = new TextEditor.Languages.PythonSyntaxLanguage();
-            //Log.Error("Hello!");
         }
 
         private async void OpenButton_Click(object sender, RoutedEventArgs e)
@@ -63,22 +64,6 @@ namespace MarkdownApp.UI
             }
         }
 
-        private async void TestButton_Click(object sender, RoutedEventArgs e)
-        {
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                    new CoreDispatcherPriority(), () =>
-                    {
-
-                        ///RtfConversion.ToHtml(editor.Document);
-                    });
-        }
-
-        private async void OutputView_Loaded(object sender, RoutedEventArgs e)
-        {
-            string markdownCode = editor.TextLF;
-            string html = await Markdown.MarkdownToHTML(markdownCode: markdownCode);
-            OutputView.NavigateToString(html);
-        }
 
         protected async override Task LoadState(LoadStateEventArgs e)
         {
@@ -92,8 +77,8 @@ namespace MarkdownApp.UI
             {
                 Log.Toast("File has been read successfully: " + CurrentFile.DisplayName);
 
-                // load the file into the editor
-                editor.TextLF = await FileIO.ReadTextAsync(CurrentFile.StorageFile);
+                // load the file
+                string content = await FileIO.ReadTextAsync(CurrentFile.StorageFile);
             }
             else
             {
@@ -107,10 +92,8 @@ namespace MarkdownApp.UI
             // finish making changes and call CompleteUpdatesAsync.
             CachedFileManager.DeferUpdates(CurrentFile.StorageFile);
 
-            // open the file
-            // IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.ReadWrite);
-
-            await FileIO.WriteTextAsync(CurrentFile.StorageFile, editor.TextLF);
+            string content = "";
+            await FileIO.WriteTextAsync(CurrentFile.StorageFile, content);
 
             // Let Windows know that we're finished changing the file so the 
             // other app can update the remote version of the file.
@@ -125,9 +108,5 @@ namespace MarkdownApp.UI
             }
         }
 
-        private void HandleTextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
     }
 }

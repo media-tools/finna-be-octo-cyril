@@ -1,6 +1,7 @@
 ﻿using BasicApp.Common;
 using Core.Common;
 using MarkdownApp.Storage;
+using MarkdownApp.UI;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;

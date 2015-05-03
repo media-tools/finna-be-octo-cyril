@@ -4,28 +4,16 @@ using MarkdownApp.Files;
 using MarkdownApp.Languages;
 using MarkdownApp.Storage;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The Items Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234233
 
-namespace MarkdownApp
+namespace MarkdownApp.UI
 {
     /// <summary>
     /// A page that displays a collection of item previews.  In the Split Application this page
@@ -71,7 +59,11 @@ namespace MarkdownApp
 
             if (info != null && info.IsValid)
             {
+                if (info.Language.FileType == FileType.TEXT)
                 Frame.Navigate(typeof(MarkdownEditPage), info);
+                else if (info.Language.FileType == FileType.INK)
+                        Frame.Navigate(typeof(InkEditPage), info);
+                else Log.FatalError("Unknown file type.");
             }
             else
             {

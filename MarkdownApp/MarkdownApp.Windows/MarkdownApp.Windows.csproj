@@ -130,6 +130,9 @@
     <Compile Include="Files\IDataItem.cs" />
     <Compile Include="Storage\FileStorage.cs" />
     <Compile Include="Storage\Settings.cs" />
+    <Compile Include="UI\InkEditPage.xaml.cs">
+      <DependentUpon>InkEditPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -168,6 +171,10 @@
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="UI\InkEditPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

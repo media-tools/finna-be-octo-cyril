@@ -17,7 +17,7 @@ namespace MarkdownApp
             string strHTML, strFont, strColour, strBold, strFntName;
             float shtSize;
             int lngOriginalStart, lngOriginalLength;
-            int intCount, i = 0;
+            int intCount = 0;
             ITextRange tr = doc.GetRange(0, 9999999);
 
             // If nothing in the box, exit
