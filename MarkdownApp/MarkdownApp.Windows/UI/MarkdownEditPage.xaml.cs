@@ -21,6 +21,7 @@ namespace MarkdownApp
     /// </summary>
     public sealed partial class MarkdownEditPage : BasicPage
     {
+        public FileInfo CurrentFile;
 
         public MarkdownEditPage()
         {
@@ -37,30 +38,28 @@ namespace MarkdownApp
             LanguageSupport.AddLanguageSupport(open);
 
             Windows.Storage.StorageFile file = await open.PickSingleFileAsync();
-
-            if (file != null)
-            {
-                //IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
-
-                // load the file into the editor
-                editor.TextLF = await FileIO.ReadTextAsync(file);
-            }
+            CurrentFile = new FileInfo(storageFile: file, printErrors: true);
+            await LoadFile();
         }
 
         protected async override Task LoadState(LoadStateEventArgs e)
         {
-            FileInfo file = e.NavigationParameter as FileInfo;
+            CurrentFile = e.NavigationParameter as FileInfo;
+            await LoadFile();
+        }
 
-            if (file != null && file.IsValid)
+        private async Task LoadFile()
+        {
+            if (CurrentFile != null && CurrentFile.IsValid)
             {
-                Log.Error("Hello, " + file.FullPath);
+                Log._Test("File has been read successfully: " + CurrentFile.FullPath);
 
                 // load the file into the editor
-                editor.TextLF = await FileIO.ReadTextAsync(file.StorageFile);
+                editor.TextLF = await FileIO.ReadTextAsync(CurrentFile.StorageFile);
             }
             else
             {
-                Log.Error("Name is required.  Go back and enter a name.");
+                Log.Error("The file is not valid.");
             }
         }
 

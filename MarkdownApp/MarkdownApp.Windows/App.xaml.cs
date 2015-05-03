@@ -27,7 +27,7 @@ namespace MarkdownApp
             this.Suspending += OnSuspending;
 
             Settings.Load();
-            //Files.Load();
+            Files.Load();
         }
 
         private Frame CreateRootFrame()
@@ -88,6 +88,13 @@ namespace MarkdownApp
 
             // Ensure the current window is active
             Window.Current.Activate();
+
+
+
+
+
+            string content = Settings.CurrentContainer.Values["test_files"] as string;
+            Log._Test(content);
         }
 
         /// <summary>
@@ -122,7 +129,7 @@ namespace MarkdownApp
             p.ProtocolEvent = null;
             p.NavigateToFilePage();
             */
-            Log._Test(e);
+            //Log._Test(e);
             await p.OpenFile(e);
 
             //Log.Error("test: " + (rootFrame.Content as MarkdownEditPage));

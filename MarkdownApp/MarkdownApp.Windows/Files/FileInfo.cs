@@ -6,15 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.AccessCache;
 
 namespace MarkdownApp
 {
     public class FileInfo : IDataItem
     {
-        private bool printErrors;
-
         [JsonProperty("full_path")]
         public string FullPath { get; set; }
+
+        [JsonProperty("future_token")]
+        public string Token { get; set; }
 
         [JsonIgnore]
         public IStorageFile StorageFile { get; private set; }
@@ -36,6 +38,7 @@ namespace MarkdownApp
         public FileInfo(IStorageFile storageFile, bool printErrors)
         {
             StorageFile = storageFile;
+            Token = StorageApplicationPermissions.FutureAccessList.Add(file: storageFile);
             PrintErrors = printErrors;
         }
 
@@ -49,30 +52,45 @@ namespace MarkdownApp
         {
             if (StorageFile == null)
             {
-                try
+                if (string.IsNullOrWhiteSpace(Token))
                 {
-                    StorageFile = await Windows.Storage.StorageFile.GetFileFromPathAsync(FullPath);
+                    Log.Error("File has no token!");
                 }
-                catch (Exception e)
+                else
                 {
-                    if (PrintErrors)
+                    try
                     {
-                        Log.Error("Check:StorageFile: ", e);
+                        StorageFile = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(token: Token);
+                        // StorageFile = await Windows.Storage.StorageFile.GetFileFromPathAsync(FullPath);
                     }
-                    else
+                    catch (Exception e)
                     {
-                        Log.Debug("Check:StorageFile: ", e);
+                        if (PrintErrors)
+                        {
+                            Log.Error("Check:StorageFile: ", e);
+                        }
+                        else
+                        {
+                            Log.Debug("Check:StorageFile: ", e);
+                        }
                     }
                 }
             }
 
             if (string.IsNullOrWhiteSpace(FullPath))
             {
-                FullPath = StorageFile.Path;
+                if (StorageFile != null)
+                {
+                    FullPath = StorageFile.Path;
+                }
+                else
+                {
+                    Log.Error("Bug! Both StorageFile and FullPath are null!");
+                }
             }
 
             IsFullPathSupported = FullPath != null;
-            IsValid = StorageFile != null;
+            IsValid = StorageFile != null && Token != null;
 
         }
 

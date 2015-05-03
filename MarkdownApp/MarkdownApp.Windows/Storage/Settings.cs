@@ -27,7 +27,7 @@ namespace MarkdownApp.Storage
                 {
                     string message = string.Join("\n", messageLines);
 
-                    MessageDialog dialog = new MessageDialog(message, type == Log.Type.FATAL_ERROR ? "Fatal Error" : "Error");
+                    MessageDialog dialog = new MessageDialog(message, type == Log.Type.FATAL_ERROR ? "Fatal Error" : type == Log.Type.ERROR ? "Error" : "Test");
                     dialog.ShowAsync();
                 }
             };

@@ -25,10 +25,8 @@ namespace MarkdownApp.Storage
                 InternalConfig = PortableConfigHelper.ReadConfig<FilesConfig>(content: ref content);
                 Settings.CurrentContainer.Values[KEY_FILES] = content;
 
-                foreach (FileInfo file in InternalConfig.RecentFiles)
-                {
-                    file.Check().Wait();
-                }
+                InternalConfig.RecentFiles = InternalConfig.RecentFiles.Where(f => !string.IsNullOrWhiteSpace(f.Token)).ToList();
+                Save();
             }
             else
             {
@@ -57,7 +55,6 @@ namespace MarkdownApp.Storage
                     //Log._Test(storageItem.Path);
                     FileInfo file = new FileInfo(storageFile: storageItem as IStorageFile, printErrors: true);
                     await file.Check();
-                    return file;
                     if (file.IsValid)
                     {
                         if (file.IsFullPathSupported)
@@ -65,6 +62,7 @@ namespace MarkdownApp.Storage
                             if (!RecentFiles.Any(rf => rf.FullPath == file.FullPath))
                             {
                                 RecentFiles.Add(file);
+                                Save();
                             }
                         }
                         return file;

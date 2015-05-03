@@ -42,9 +42,10 @@ namespace MarkdownApp
             var test = new FileInfo(fullPath: "C:/test/abc.txt", printErrors: true);
             items.Add(test);
 
-            foreach (FileInfo fileInfo in Files.RecentFiles)
+            foreach (FileInfo file in Files.RecentFiles)
             {
-                items.Add(fileInfo);
+                file.PrintErrors = true;
+                items.Add(file);
             }
             
             this.DefaultViewModel["Items"] = items;
@@ -53,15 +54,16 @@ namespace MarkdownApp
         public async Task OpenFile(FileActivatedEventArgs e)
         {
             FileInfo info = await Files.RegisterFile(e);
-            Log._Test(info);
+            // Log._Test(info);
             if (info != null)
             {
-                OpenFile(info);
+                await OpenFile(info);
             }
         }
 
-        public void OpenFile(FileInfo info)
+        public async Task OpenFile(FileInfo info)
         {
+            await info.Check();
             if (info != null && info.IsValid)
             {
                 Frame.Navigate(typeof(MarkdownEditPage), info);
@@ -72,10 +74,10 @@ namespace MarkdownApp
             }
         }
 
-        private void itemGridView_ItemClick(object sender, ItemClickEventArgs e)
+        private async void itemGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             //Log._Test(e.ClickedItem);
-            OpenFile(e.ClickedItem as FileInfo);
+            await OpenFile(e.ClickedItem as FileInfo);
         }
     }
 }

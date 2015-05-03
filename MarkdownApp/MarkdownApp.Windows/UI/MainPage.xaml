@@ -51,9 +51,9 @@
                             <SolidColorBrush Color="#ffff0000" />
                             <!-- <ImageBrush Stretch="None" ImageSource="Assets/background_top.png" AlignmentY="Top" AlignmentX="Center"/> -->
                         </Grid.Background>
-                        <StackPanel VerticalAlignment="Bottom" Background="Gray" Opacity="0.9" Margin="20,0,0,0">
-                            <TextBlock Text="{Binding Title}" Foreground="{ThemeResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource BaseTextBlockStyle}" Height="50" Margin="15,15,15,0" FontWeight="SemiBold" FontSize="18"/>
-                            <TextBlock Text="{Binding Subtitle}" Foreground="{ThemeResource ListViewItemOverlaySecondaryForegroundThemeBrush}" Style="{StaticResource BaseTextBlockStyle}" Height="25" TextWrapping="NoWrap" Margin="15,0,15,15" FontSize="12"/>
+                        <StackPanel VerticalAlignment="Bottom" Background="Gray" Opacity="0.7" Margin="20,0,0,0">
+                            <TextBlock Text="{Binding Title}" Foreground="White" Opacity="1.0" Style="{StaticResource BaseTextBlockStyle}" Height="50" Margin="15,15,15,0" FontWeight="SemiBold" FontSize="18"/>
+                            <TextBlock Text="{Binding Subtitle}" Foreground="White" Opacity="1.0" Style="{StaticResource BaseTextBlockStyle}" Height="25" TextWrapping="NoWrap" Margin="15,0,15,15" FontSize="12"/>
                         </StackPanel>
                     </Grid>
                     <!--
