@@ -20,47 +20,13 @@ namespace MarkdownApp.UI
     /// <summary>
     /// Eine leere Seite, die eigenständig verwendet werden kann oder auf die innerhalb eines Frames navigiert werden kann.
     /// </summary>
-    public sealed partial class MarkdownEditPage : BasicPage
+    public sealed partial class MarkdownEditPage : BasicEditPage
     {
-        public RecentFile CurrentFile;
-
         public MarkdownEditPage()
         {
             this.InitializeComponent();
             editor.SyntaxLanguage = new TextEditor.Languages.PythonSyntaxLanguage();
             //Log.Error("Hello!");
-        }
-
-        private async void OpenButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(MainPage), null);
-        }
-
-        private async void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            await SaveFile();
-        }
-
-        private async void SaveAsButton_Click(object sender, RoutedEventArgs e)
-        {
-            FileSavePicker savePicker = new FileSavePicker();
-            savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
-
-            // Dropdown of file types the user can save the file as
-            if (CurrentFile.Language != null)
-                CurrentFile.Language.AddLanguageSupport(savePicker);
-            else
-                LanguageSupport.AddLanguageSupport(savePicker);
-
-            // Default file name if the user does not type one in or select a file to replace
-            savePicker.SuggestedFileName = "New Document";
-
-            StorageFile file = await savePicker.PickSaveFileAsync();
-            if (file != null)
-            {
-                CurrentFile = await FileStorage.RegisterFile(storageFile: file);
-                await SaveFile();
-            }
         }
 
         private async void TestButton_Click(object sender, RoutedEventArgs e)
@@ -80,49 +46,15 @@ namespace MarkdownApp.UI
             OutputView.NavigateToString(html);
         }
 
-        protected async override Task LoadState(LoadStateEventArgs e)
+        protected async override Task<string> GetContent()
         {
-            CurrentFile = e.NavigationParameter as RecentFile;
-            await LoadFile();
+            return editor.TextLF;
         }
 
-        private async Task LoadFile()
+        protected async override Task SetContent(string content)
         {
-            if (CurrentFile != null && CurrentFile.IsValid)
-            {
-                Log.Toast("File has been read successfully: " + CurrentFile.DisplayName);
-
-                // load the file into the editor
-                editor.TextLF = await FileIO.ReadTextAsync(CurrentFile.StorageFile);
-            }
-            else
-            {
-                Log.Error("The file is not valid.");
-            }
-        }
-
-        private async Task SaveFile()
-        {
-            // Prevent updates to the remote version of the file until we 
-            // finish making changes and call CompleteUpdatesAsync.
-            CachedFileManager.DeferUpdates(CurrentFile.StorageFile);
-
-            // open the file
-            // IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.ReadWrite);
-
-            await FileIO.WriteTextAsync(CurrentFile.StorageFile, editor.TextLF);
-
-            // Let Windows know that we're finished changing the file so the 
-            // other app can update the remote version of the file.
-            FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(CurrentFile.StorageFile);
-            if (status != FileUpdateStatus.Complete)
-            {
-                Log.FatalError("File couldn't be saved: ", CurrentFile.FullPath);
-            }
-            else
-            {
-                Log.Toast("File has been saved: " + CurrentFile.DisplayName);
-            }
+            // load the file into the editor
+            editor.TextLF = content;
         }
 
         private void HandleTextChanged(object sender, TextChangedEventArgs e)

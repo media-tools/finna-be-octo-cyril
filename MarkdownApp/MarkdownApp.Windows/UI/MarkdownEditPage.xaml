@@ -1,5 +1,6 @@
-﻿<common:BasicPage
-    xmlns:common="using:BasicApp.Common"
+﻿<app_ui:BasicEditPage
+    xmlns:app_ui="using:MarkdownApp.UI"
+    xmlns:basic_common="using:BasicApp.Common"
     x:Class="MarkdownApp.UI.MarkdownEditPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,11 +8,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    xmlns:ui="using:TextEditor.UI"
-    xmlns:lang="using:TextEditor.Languages" >
+    xmlns:texteditor_ui="using:TextEditor.UI"
+    xmlns:texteditor_lang="using:TextEditor.Languages" >
 
     <Page.Resources>
-        <common:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <basic_common:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
         <Style x:Key="BaseStatusStyle" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Segoe UI Semilight"/>
@@ -90,14 +91,14 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <ui:SyntaxEditor x:Name="editor" FontFamily="Consolas" BorderBrush="LightGray" BorderThickness="0,0,0,0">
+                <texteditor_ui:SyntaxEditor x:Name="editor" FontFamily="Consolas" BorderBrush="LightGray" BorderThickness="0,0,0,0">
                     <!--<ui:SyntaxEditor.SyntaxLanguage>
                         <lang:PythonSyntaxLanguage />
                     </ui:SyntaxEditor.SyntaxLanguage>-->
-                </ui:SyntaxEditor>
+                </texteditor_ui:SyntaxEditor>
 
 
             </Grid>
         </Border>
     </Grid>
-</common:BasicPage>
+</app_ui:BasicEditPage>

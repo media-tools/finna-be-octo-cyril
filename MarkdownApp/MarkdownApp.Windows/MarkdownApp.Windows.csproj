@@ -124,12 +124,14 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Files\OpenFileItem.cs" />
+    <Compile Include="Ink\InkCanvas.cs" />
     <Compile Include="Languages\FileType.cs" />
     <Compile Include="Files\NewFileItem.cs" />
     <Compile Include="Files\RecentFile.cs" />
     <Compile Include="Files\IDataItem.cs" />
     <Compile Include="Storage\FileStorage.cs" />
     <Compile Include="Storage\Settings.cs" />
+    <Compile Include="UI\BasicEditPage.cs" />
     <Compile Include="UI\InkEditPage.xaml.cs">
       <DependentUpon>InkEditPage.xaml</DependentUpon>
     </Compile>
