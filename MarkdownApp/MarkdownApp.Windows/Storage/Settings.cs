@@ -17,12 +17,13 @@ namespace MarkdownApp.Storage
 
         public static ApplicationDataContainer CurrentContainer { get; private set; }
 
-        static Settings()
+        public static void Load()
         {
             PortableLogging.Enable();
             Log.LogHandler += (type, messageLines) =>
             {
-                if (type == Log.Type.ERROR || type == Log.Type.FATAL_ERROR)
+                BlockingDebugConsole.WriteLine("fuck: " + type);
+                if (type == Log.Type.ERROR || type == Log.Type.FATAL_ERROR || type == Log.Type._TEST)
                 {
                     string message = string.Join("\n", messageLines);
 
@@ -30,10 +31,8 @@ namespace MarkdownApp.Storage
                     dialog.ShowAsync();
                 }
             };
-        }
 
-        public static void Load()
-        {
+
             LocalSettings = ApplicationData.Current.LocalSettings;
             // StorageFolder localFolder = ApplicationData.Current.LocalFolder;
 

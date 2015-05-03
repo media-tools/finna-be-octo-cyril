@@ -1,25 +1,14 @@
-﻿using Core.Markdown;
+﻿using BasicApp.Common;
+using Core.Common;
+using Core.Markdown;
 using MarkdownApp.Languages;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Provider;
-using Windows.Storage.Streams;
 using Windows.UI.Core;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // Die Elementvorlage "Leere Seite" ist unter http://go.microsoft.com/fwlink/?LinkId=234238 dokumentiert.
@@ -29,13 +18,14 @@ namespace MarkdownApp
     /// <summary>
     /// Eine leere Seite, die eigenständig verwendet werden kann oder auf die innerhalb eines Frames navigiert werden kann.
     /// </summary>
-    public sealed partial class MarkdownEditPage : Page
+    public sealed partial class MarkdownEditPage : BasicPage
     {
 
         public MarkdownEditPage()
         {
             this.InitializeComponent();
             editor.SyntaxLanguage = new TextEditor.Languages.PythonSyntaxLanguage();
+            //Log.Error("Hello!");
         }
 
         private async void OpenButton_Click(object sender, RoutedEventArgs e)
@@ -54,6 +44,22 @@ namespace MarkdownApp
                 // load the file into the editor
                 editor.TextLF = await FileIO.ReadTextAsync(file);
             }
+        }
+
+        protected override void LoadState(LoadStateEventArgs e)
+        {
+            FileInfo fileInfo = e.NavigationParameter as FileInfo;
+
+            if (fileInfo != null)
+            {
+                Log.Error("Hello, " + fileInfo.FullPath);
+            }
+            else
+            {
+                Log.Error("Name is required.  Go back and enter a name.");
+            }
+
+            editor.TextLF = fileInfo.ReadText().Result;
         }
 
         private async void TestButton_Click(object sender, RoutedEventArgs e)
@@ -111,38 +117,6 @@ namespace MarkdownApp
             }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            this.Loaded += PageLoaded;
-            this.Unloaded += PageUnloaded;
-        }
-
-        private void PageUnloaded(object sender, RoutedEventArgs e)
-        {
-            Window.Current.SizeChanged -= Window_SizeChanged;
-        }
-
-        private void PageLoaded(object sender, RoutedEventArgs e)
-        {
-            Window.Current.SizeChanged += Window_SizeChanged;
-        }
-
-        private void Window_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
-        {
-            if (e.Size.Width <= 500)
-            {
-                //VisualStateManager.GoToState(this, state.State, transitions);
-            }
-            else if (e.Size.Height > e.Size.Width)
-            {
-                //VisualStateManager.GoToState(this, state.State, transitions);
-            }
-            else
-            {
-                //VisualStateManager.GoToState(this, state.State, transitions);
-            }
-        }
         private void HandleTextChanged(object sender, TextChangedEventArgs e)
         {
 

@@ -1,5 +1,6 @@
 ﻿using BasicApp.Common;
 using Core.Common;
+using MarkdownApp.Storage;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -25,7 +26,7 @@ namespace MarkdownApp
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
-            //Settings.Load();
+            Settings.Load();
             //Files.Load();
         }
 
@@ -102,7 +103,7 @@ namespace MarkdownApp
         /// <summary>
         // Handle file activations.
         /// </summary>
-        protected override void OnFileActivated(FileActivatedEventArgs e)
+        protected async override void OnFileActivated(FileActivatedEventArgs e)
         {
             Frame rootFrame = CreateRootFrame();
             RestoreStatus(e.PreviousExecutionState);
@@ -121,9 +122,10 @@ namespace MarkdownApp
             p.ProtocolEvent = null;
             p.NavigateToFilePage();
             */
-            p.OpenFile(e);
+            Log._Test(e);
+            await p.OpenFile(e);
 
-            Log.Error("test: " + (rootFrame.Content as MarkdownEditPage));
+            //Log.Error("test: " + (rootFrame.Content as MarkdownEditPage));
             //var p = rootFrame.Content as MainPage;
 
             // Ensure the current window is active
