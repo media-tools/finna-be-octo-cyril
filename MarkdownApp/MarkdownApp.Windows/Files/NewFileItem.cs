@@ -11,8 +11,6 @@ namespace MarkdownApp.Files
 {
     public class NewFileItem : IDataItem
     {
-        private Languages.SupportedLanguage lang;
-
         [JsonIgnore]
         public string Name { get; set; }
 
@@ -25,8 +23,12 @@ namespace MarkdownApp.Files
         [JsonIgnore]
         public FileType FileType { get; set; }
 
+        [JsonIgnore]
+        public SupportedLanguage Language { get; set; }
+
         public NewFileItem(Languages.SupportedLanguage lang)
         {
+            Language = lang;
             Name = lang.Title;
             Color = lang.Color;
             FileExtensions = lang.Extensions;

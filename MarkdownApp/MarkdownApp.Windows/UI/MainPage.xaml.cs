@@ -88,7 +88,6 @@ namespace MarkdownApp
 
         private async Task PickFile()
         {
-            // Open a text file.
             FileOpenPicker openPicker = new FileOpenPicker();
             openPicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
 
@@ -102,13 +101,16 @@ namespace MarkdownApp
             }
         }
 
-        private async Task NewFile()
+        private async Task NewFile(NewFileItem item)
         {
             FileSavePicker savePicker = new FileSavePicker();
             savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
 
             // Dropdown of file types the user can save the file as
-            LanguageSupport.AddLanguageSupport(savePicker);
+            if (item != null)
+                item.Language.AddLanguageSupport(savePicker);
+            else
+                LanguageSupport.AddLanguageSupport(savePicker);
 
             // Default file name if the user does not type one in or select a file to replace
             savePicker.SuggestedFileName = "New Document";
@@ -129,7 +131,7 @@ namespace MarkdownApp
             }
             else if (e.ClickedItem is NewFileItem)
             {
-                await NewFile();
+                await NewFile(e.ClickedItem as NewFileItem);
             }
         }
 

@@ -18,7 +18,7 @@ namespace MarkdownApp.Languages
             new SupportedLanguage("Markdown", "#ffd600", FileType.TEXT, new PythonSyntaxLanguage(), ".md"),
             new SupportedLanguage("Plain Text", "#b163a3", FileType.TEXT, new PythonSyntaxLanguage(), ".txt"),
             new SupportedLanguage("Python", "#f47d44", FileType.TEXT, new PythonSyntaxLanguage(), ".py"),
-            new SupportedLanguage("Note", "#e46764", FileType.INK, null, ".notes"),
+            new SupportedLanguage("Note", "#e46764", FileType.INK, null, ".note"),
         };
 
         public static void AddLanguageSupport(FileOpenPicker openPicker)

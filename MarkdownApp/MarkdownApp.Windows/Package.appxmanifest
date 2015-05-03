@@ -31,13 +31,13 @@
           </FileTypeAssociation>
         </Extension>
         <Extension Category="windows.fileTypeAssociation">
-          <FileTypeAssociation Name="notes">
+          <FileTypeAssociation Name="note">
             <DisplayName>Ink</DisplayName>
             <Logo>Assets\fileicon-markdown.png</Logo>
             <InfoTip>Ink</InfoTip>
             <EditFlags OpenIsSafe="true" />
             <SupportedFileTypes>
-              <FileType ContentType="text/x-notes">.notes</FileType>
+              <FileType ContentType="text/x-note">.note</FileType>
             </SupportedFileTypes>
           </FileTypeAssociation>
         </Extension>
