@@ -3,6 +3,7 @@ using Core.Common;
 using Core.Markdown;
 using MarkdownApp.Languages;
 using System;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Provider;
@@ -46,20 +47,21 @@ namespace MarkdownApp
             }
         }
 
-        protected override void LoadState(LoadStateEventArgs e)
+        protected async override Task LoadState(LoadStateEventArgs e)
         {
-            FileInfo fileInfo = e.NavigationParameter as FileInfo;
+            FileInfo file = e.NavigationParameter as FileInfo;
 
-            if (fileInfo != null)
+            if (file != null && file.IsValid)
             {
-                Log.Error("Hello, " + fileInfo.FullPath);
+                Log.Error("Hello, " + file.FullPath);
+
+                // load the file into the editor
+                editor.TextLF = await FileIO.ReadTextAsync(file.StorageFile);
             }
             else
             {
                 Log.Error("Name is required.  Go back and enter a name.");
             }
-
-            editor.TextLF = fileInfo.ReadText().Result;
         }
 
         private async void TestButton_Click(object sender, RoutedEventArgs e)

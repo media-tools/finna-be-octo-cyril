@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -30,18 +31,18 @@ namespace BasicApp.Common
             this.navigationHelper.SaveState += navigationHelper_SaveState;
         }
 
-        private void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
+        private async void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
-            LoadState(e);
+            await LoadState(e);
         }
 
-        private void navigationHelper_SaveState(object sender, SaveStateEventArgs e)
+        private async void navigationHelper_SaveState(object sender, SaveStateEventArgs e)
         {
-            SaveState(e);
+            await SaveState(e);
         }
 
-        protected virtual void LoadState(LoadStateEventArgs e) { }
-        protected virtual void SaveState(SaveStateEventArgs e) { }
+        protected async virtual Task LoadState(LoadStateEventArgs e) { }
+        protected async virtual Task SaveState(SaveStateEventArgs e) { }
 
         #region NavigationHelper registration
 

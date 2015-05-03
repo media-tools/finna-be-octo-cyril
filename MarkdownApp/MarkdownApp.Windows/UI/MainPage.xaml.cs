@@ -34,7 +34,7 @@ namespace MarkdownApp
             this.InitializeComponent();
         }
 
-        protected override void LoadState(LoadStateEventArgs e)
+        protected async override Task LoadState(LoadStateEventArgs e)
         {
             // TODO: Assign a bindable collection of items to this.DefaultViewModel["Items"]
             var items = new ObservableCollection<FileInfo>();
