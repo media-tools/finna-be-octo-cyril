@@ -76,7 +76,7 @@
                                 <!-- <ImageBrush Stretch="None" ImageSource="Assets/background_top.png" AlignmentY="Top" AlignmentX="Center"/> -->
                             </Grid.Background>
                             <StackPanel VerticalAlignment="Bottom" Background="Gray" Opacity="0.9" Margin="20,0,0,0">
-                                <TextBlock Text="{Binding Title}" Foreground="White" Opacity="1.0" Style="{StaticResource BaseTextBlockStyle}" Height="50" Margin="15,15,15,0" FontWeight="Normal" FontSize="22"/>
+                                <TextBlock Text="{Binding Title}" Foreground="White" Opacity="1.0" Style="{StaticResource BaseTextBlockStyle}" Height="45" Margin="15,20,15,0" FontWeight="Normal" FontSize="22"/>
                                 <TextBlock Text="{Binding Subtitle}" Foreground="White" Opacity="1.0" Style="{StaticResource BaseTextBlockStyle}" Height="25" TextWrapping="NoWrap" Margin="15,0,15,15" FontSize="12"/>
                             </StackPanel>
                         </Grid>
@@ -106,8 +106,8 @@
                                 <SolidColorBrush Color="{Binding BackgroundColor}" />
                                 <!-- <ImageBrush Stretch="None" ImageSource="Assets/background_top.png" AlignmentY="Top" AlignmentX="Center"/> -->
                             </Grid.Background>
-                            <StackPanel VerticalAlignment="Bottom" Background="Gray" Opacity="0.7" Margin="20,0,0,0">
-                                <TextBlock Text="{Binding Title}" Foreground="White" Opacity="1.0" Style="{StaticResource BaseTextBlockStyle}" Height="50" Margin="15,15,15,0" FontWeight="SemiBold" FontSize="18"/>
+                            <StackPanel VerticalAlignment="Bottom" Background="Gray" Opacity="0.9" Margin="20,0,0,0">
+                                <TextBlock Text="{Binding Title}" Foreground="White" Opacity="1.0" Style="{StaticResource BaseTextBlockStyle}" Height="45" Margin="15,20,15,0" FontWeight="SemiBold" FontSize="18"/>
                                 <TextBlock Text="{Binding Subtitle}" Foreground="White" Opacity="1.0" Style="{StaticResource BaseTextBlockStyle}" Height="25" TextWrapping="NoWrap" Margin="15,0,15,15" FontSize="12"/>
                             </StackPanel>
                         </Grid>
@@ -133,12 +133,14 @@
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <!--
             <Button x:Name="backButton" Margin="39,59,39,0" Command="{Binding NavigationHelper.GoBackCommand, ElementName=pageRoot}"
                         Style="{ThemeResource NavigationBackButtonNormalStyle}"
                         VerticalAlignment="Top"
                         AutomationProperties.Name="Back"
                         AutomationProperties.AutomationId="BackButton"
                         AutomationProperties.ItemType="Navigation Button"/>
+            -->
             <TextBlock x:Name="pageTitle" Text="{StaticResource AppName}" Style="{ThemeResource HeaderTextBlockStyle}" Grid.Column="1" 
                         IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,30,40"/>
         </Grid>

@@ -1,4 +1,4 @@
-MainPackage=C:\Users\Tobias\Documents\GitHub\finna-be-octo-cyril\MarkdownApp\MarkdownApp.Windows\bin\Release\MarkdownApp.Windows_1.1.0.17_Bundle\MarkdownApp.Windows_1.1.0.17_AnyCPU.appx
-SymbolPackage=C:\Users\Tobias\Documents\GitHub\finna-be-octo-cyril\MarkdownApp\MarkdownApp.Windows\AppPackages\MarkdownApp.Windows_1.1.0.17_Test\MarkdownApp.Windows_1.1.0.17_AnyCPU.appxsym
-ResourcePack=C:\Users\Tobias\Documents\GitHub\finna-be-octo-cyril\MarkdownApp\MarkdownApp.Windows\bin\Release\MarkdownApp.Windows_1.1.0.17_Bundle\MarkdownApp.Windows_1.1.0.17_scale-140.appx
-ResourcePack=C:\Users\Tobias\Documents\GitHub\finna-be-octo-cyril\MarkdownApp\MarkdownApp.Windows\bin\Release\MarkdownApp.Windows_1.1.0.17_Bundle\MarkdownApp.Windows_1.1.0.17_scale-180.appx
+MainPackage=C:\Users\Tobias\Documents\GitHub\finna-be-octo-cyril\MarkdownApp\MarkdownApp.Windows\bin\Release\MarkdownApp.Windows_1.1.0.20_Bundle\MarkdownApp.Windows_1.1.0.20_AnyCPU.appx
+SymbolPackage=C:\Users\Tobias\Documents\GitHub\finna-be-octo-cyril\MarkdownApp\MarkdownApp.Windows\AppPackages\MarkdownApp.Windows_1.1.0.20_Test\MarkdownApp.Windows_1.1.0.20_AnyCPU.appxsym
+ResourcePack=C:\Users\Tobias\Documents\GitHub\finna-be-octo-cyril\MarkdownApp\MarkdownApp.Windows\bin\Release\MarkdownApp.Windows_1.1.0.20_Bundle\MarkdownApp.Windows_1.1.0.20_scale-140.appx
+ResourcePack=C:\Users\Tobias\Documents\GitHub\finna-be-octo-cyril\MarkdownApp\MarkdownApp.Windows\bin\Release\MarkdownApp.Windows_1.1.0.20_Bundle\MarkdownApp.Windows_1.1.0.20_scale-180.appx

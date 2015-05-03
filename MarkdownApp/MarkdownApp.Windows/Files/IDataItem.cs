@@ -10,6 +10,7 @@ namespace MarkdownApp
     {
         string UniqueId { get; }
         string Title { get; }
+        string DisplayName { get; }
         string Subtitle { get; }
         string Description { get; }
         string ImagePath { get; }

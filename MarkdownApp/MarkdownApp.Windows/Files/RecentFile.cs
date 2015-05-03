@@ -3,6 +3,7 @@ using MarkdownApp.Languages;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -133,7 +134,9 @@ namespace MarkdownApp
         [JsonIgnore]
         public string Title { get { return System.IO.Path.GetFileName(FullPath); } }
         [JsonIgnore]
-        public string Subtitle { get { return FullPath; } }
+        public string DisplayName { get { return FullPath.Count(c => c == '/' || c == '\\') <= 3 ? FullPath : Path.Combine("...", Path.Combine(FullPath.Split('\\', '/').TakeLast(3).ToArray())); } }
+        [JsonIgnore]
+        public string Subtitle { get { return DisplayName; } }
         [JsonIgnore]
         public string Description { get { return ""; } }
         [JsonIgnore]

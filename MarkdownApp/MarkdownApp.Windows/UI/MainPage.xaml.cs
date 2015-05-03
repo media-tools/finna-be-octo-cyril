@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -41,6 +43,7 @@ namespace MarkdownApp
             // TODO: Assign a bindable collection of items to this.DefaultViewModel["Items"]
 
             var newFiles = new ObservableCollection<IDataItem>();
+            newFiles.Add(new OpenFileItem());
             foreach (var item in LanguageSupport.GetItemsNewFile())
             {
                 newFiles.Add(item);
@@ -48,7 +51,7 @@ namespace MarkdownApp
             this.DefaultViewModel["NewFiles"] = newFiles;
 
 
-            var recentFiles = new ObservableCollection<RecentFile>();
+            var recentFiles = new ObservableCollection<IDataItem>();
             // recentFiles.Add(new RecentFile(fullPath: "C:/test/abc.txt", printErrors: true));
             foreach (RecentFile file in FileStorage.RecentFiles)
             {
@@ -57,28 +60,6 @@ namespace MarkdownApp
                 recentFiles.Add(file);
             }
             this.DefaultViewModel["RecentFiles"] = recentFiles;
-        }
-
-        public async Task PickFile()
-        {
-            // Open a text file.
-            Windows.Storage.Pickers.FileOpenPicker open = new Windows.Storage.Pickers.FileOpenPicker();
-            open.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
-            LanguageSupport.AddLanguageSupport(open);
-
-            Windows.Storage.StorageFile storageFile = await open.PickSingleFileAsync();
-            if (storageFile != null)
-            {
-                RecentFile file = await FileStorage.RegisterFile(storageFile: storageFile);
-                await OpenFile(file);
-            }
-        }
-
-        public async Task OpenFile(FileActivatedEventArgs e)
-        {
-            RecentFile info = await FileStorage.RegisterFile(e);
-            // Log._Test(info);
-            await OpenFile(info);
         }
 
         public async Task OpenFile(RecentFile info)
@@ -98,13 +79,61 @@ namespace MarkdownApp
             }
         }
 
-        private async void GridViewRecent_ItemClick(object sender, ItemClickEventArgs e)
+        public async Task OpenFile(FileActivatedEventArgs e)
         {
-            //Log._Test(e.ClickedItem);
-            await OpenFile(e.ClickedItem as RecentFile);
+            RecentFile file = await FileStorage.RegisterFile(e);
+            // Log._Test(info);
+            await OpenFile(file);
+        }
+
+        private async Task PickFile()
+        {
+            // Open a text file.
+            FileOpenPicker openPicker = new FileOpenPicker();
+            openPicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+
+            LanguageSupport.AddLanguageSupport(openPicker);
+
+            Windows.Storage.StorageFile storageFile = await openPicker.PickSingleFileAsync();
+            if (storageFile != null)
+            {
+                RecentFile file = await FileStorage.RegisterFile(storageFile: storageFile);
+                await OpenFile(file);
+            }
+        }
+
+        private async Task NewFile()
+        {
+            FileSavePicker savePicker = new FileSavePicker();
+            savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+
+            // Dropdown of file types the user can save the file as
+            LanguageSupport.AddLanguageSupport(savePicker);
+
+            // Default file name if the user does not type one in or select a file to replace
+            savePicker.SuggestedFileName = "New Document";
+
+            StorageFile storageFile = await savePicker.PickSaveFileAsync();
+            if (storageFile != null)
+            {
+                RecentFile file = await FileStorage.RegisterFile(storageFile: storageFile);
+                await OpenFile(file);
+            }
         }
 
         private async void GridViewNew_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            if (e.ClickedItem is OpenFileItem)
+            {
+                await PickFile();
+            }
+            else if (e.ClickedItem is NewFileItem)
+            {
+                await NewFile();
+            }
+        }
+
+        private async void GridViewRecent_ItemClick(object sender, ItemClickEventArgs e)
         {
             //Log._Test(e.ClickedItem);
             await OpenFile(e.ClickedItem as RecentFile);

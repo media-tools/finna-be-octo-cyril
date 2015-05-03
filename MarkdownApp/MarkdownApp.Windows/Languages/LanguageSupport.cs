@@ -40,11 +40,11 @@ namespace MarkdownApp.Languages
             }
         }
 
-        public static IEnumerable<NewFile> GetItemsNewFile()
+        public static IEnumerable<NewFileItem> GetItemsNewFile()
         {
             foreach (SupportedLanguage lang in SupportedLanguages)
             {
-                yield return new NewFile(lang);
+                yield return new NewFileItem(lang);
             }
         }
 

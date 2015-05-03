@@ -90,7 +90,7 @@ namespace MarkdownApp
         {
             if (CurrentFile != null && CurrentFile.IsValid)
             {
-                Log._Test("File has been read successfully: " + CurrentFile.FullPath);
+                Log.Toast("File has been read successfully: " + CurrentFile.DisplayName);
 
                 // load the file into the editor
                 editor.TextLF = await FileIO.ReadTextAsync(CurrentFile.StorageFile);
@@ -118,6 +118,10 @@ namespace MarkdownApp
             if (status != FileUpdateStatus.Complete)
             {
                 Log.FatalError("File couldn't be saved: ", CurrentFile.FullPath);
+            }
+            else
+            {
+                Log.Toast("File has been saved: " + CurrentFile.DisplayName);
             }
         }
 

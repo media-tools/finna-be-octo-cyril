@@ -9,7 +9,7 @@ using Windows.Storage;
 
 namespace MarkdownApp.Files
 {
-    public class NewFile : IDataItem
+    public class NewFileItem : IDataItem
     {
         private Languages.SupportedLanguage lang;
 
@@ -25,7 +25,7 @@ namespace MarkdownApp.Files
         [JsonIgnore]
         public FileType FileType { get; set; }
 
-        public NewFile(Languages.SupportedLanguage lang)
+        public NewFileItem(Languages.SupportedLanguage lang)
         {
             Name = lang.Title;
             Color = lang.Color;
@@ -36,7 +36,9 @@ namespace MarkdownApp.Files
         [JsonIgnore]
         public string UniqueId { get { return "new:" + string.Join(",", FileExtensions); } }
         [JsonIgnore]
-        public string Title { get { return Name; } }
+        public string Title { get { return "New " + Name; } }
+        [JsonIgnore]
+        public string DisplayName { get { return Title; } }
         [JsonIgnore]
         public string Subtitle { get { return string.Join(", ", FileExtensions.Select(e => "\"" + e + "\"")); } }
         [JsonIgnore]

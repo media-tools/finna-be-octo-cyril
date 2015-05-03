@@ -21,6 +21,7 @@
     <PackageCertificateKeyFile>MarkdownApp.Windows_StoreKey.pfx</PackageCertificateKeyFile>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -122,8 +123,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Files\OpenFileItem.cs" />
     <Compile Include="Languages\FileType.cs" />
-    <Compile Include="Files\NewFile.cs" />
+    <Compile Include="Files\NewFileItem.cs" />
     <Compile Include="Files\RecentFile.cs" />
     <Compile Include="Files\IDataItem.cs" />
     <Compile Include="Storage\FileStorage.cs" />
@@ -181,11 +183,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Core.Markdown, Version=1.0.5601.2742, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Core.Markdown.0.1.4\lib\portable-net45+win\Core.Markdown.dll</HintPath>
+      <HintPath>..\packages\Core.Markdown.0.1.8\lib\portable-win81\Core.Markdown.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Core.Portable, Version=1.0.5601.21639, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Core.Common.0.1.98\lib\portable-win81\Core.Portable.dll</HintPath>
+    <Reference Include="Core.Portable, Version=1.0.5601.30809, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Core.Common.0.1.101\lib\portable-win81\Core.Portable.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
