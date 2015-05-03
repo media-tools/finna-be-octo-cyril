@@ -182,12 +182,12 @@
       <HintPath>..\packages\CommonMark.NET.0.9.0\lib\portable-net40+sl50+wp80+win+wpa81+MonoAndroid10+MonoTouch10\CommonMark.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Core.Markdown, Version=1.0.5601.2742, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Core.Markdown.0.1.8\lib\portable-win81\Core.Markdown.dll</HintPath>
+    <Reference Include="Core.Markdown, Version=1.0.5601.2746, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Core.Markdown.0.1.9\lib\portable-win81\Core.Markdown.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Core.Portable, Version=1.0.5601.30809, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Core.Common.0.1.101\lib\portable-win81\Core.Portable.dll</HintPath>
+    <Reference Include="Core.Portable, Version=1.0.5601.30813, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Core.Common.0.1.102\lib\portable-win81\Core.Portable.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

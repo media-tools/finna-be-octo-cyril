@@ -56,7 +56,7 @@
             <TextBlock Grid.Column="2" Grid.Row="0" Text="Recent Files" Foreground="White" Opacity="0.7" Style="{StaticResource BaseTextBlockStyle}" Height="50" Margin="15,15,15,0" FontWeight="Light" FontSize="22"/>
 
             <!--Padding="116,136,116,46"-->
-            <GridView
+            <ListView
                 Grid.Column="1"
                 Grid.Row="1"
                 x:Name="GridViewNew"
@@ -68,22 +68,22 @@
                 IsItemClickEnabled="True"
                 SelectionMode="None"
                 IsSwipeEnabled="false">
-                <GridView.ItemTemplate>
+                <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid HorizontalAlignment="Left" Width="300" Height="100">
                             <Grid.Background>
                                 <SolidColorBrush Color="{Binding BackgroundColor}" />
                                 <!-- <ImageBrush Stretch="None" ImageSource="Assets/background_top.png" AlignmentY="Top" AlignmentX="Center"/> -->
                             </Grid.Background>
-                            <StackPanel VerticalAlignment="Bottom" Background="Gray" Opacity="0.9" Margin="20,0,0,0">
+                            <StackPanel VerticalAlignment="Bottom" Background="Gray" Opacity="0.85" Margin="20,0,0,0">
                                 <TextBlock Text="{Binding Title}" Foreground="White" Opacity="1.0" Style="{StaticResource BaseTextBlockStyle}" Height="45" Margin="15,20,15,0" FontWeight="Normal" FontSize="22"/>
                                 <TextBlock Text="{Binding Subtitle}" Foreground="White" Opacity="1.0" Style="{StaticResource BaseTextBlockStyle}" Height="25" TextWrapping="NoWrap" Margin="15,0,15,15" FontSize="12"/>
                             </StackPanel>
                         </Grid>
 
                     </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>
+                </ListView.ItemTemplate>
+            </ListView>
 
             <!-- Horizontal scrolling grid -->
             <GridView
@@ -106,7 +106,7 @@
                                 <SolidColorBrush Color="{Binding BackgroundColor}" />
                                 <!-- <ImageBrush Stretch="None" ImageSource="Assets/background_top.png" AlignmentY="Top" AlignmentX="Center"/> -->
                             </Grid.Background>
-                            <StackPanel VerticalAlignment="Bottom" Background="Gray" Opacity="0.9" Margin="20,0,0,0">
+                            <StackPanel VerticalAlignment="Bottom" Background="Gray" Opacity="0.85" Margin="20,0,0,0">
                                 <TextBlock Text="{Binding Title}" Foreground="White" Opacity="1.0" Style="{StaticResource BaseTextBlockStyle}" Height="45" Margin="15,20,15,0" FontWeight="SemiBold" FontSize="18"/>
                                 <TextBlock Text="{Binding Subtitle}" Foreground="White" Opacity="1.0" Style="{StaticResource BaseTextBlockStyle}" Height="25" TextWrapping="NoWrap" Margin="15,0,15,15" FontSize="12"/>
                             </StackPanel>

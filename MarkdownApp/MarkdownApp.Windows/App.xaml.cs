@@ -93,8 +93,8 @@ namespace MarkdownApp
 
 
 
-            string content = Settings.CurrentContainer.Values["test_files"] as string;
-            Log._Test(content);
+            //string content = Settings.CurrentContainer.Values["test_files"] as string;
+            //Log._Test(content);
         }
 
         /// <summary>
