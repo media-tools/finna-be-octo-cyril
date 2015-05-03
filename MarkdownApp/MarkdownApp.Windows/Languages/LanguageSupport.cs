@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MarkdownApp.Files;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,8 +14,9 @@ namespace MarkdownApp.Languages
     {
         private static List<SupportedLanguage> SupportedLanguages = new List<SupportedLanguage>
         {
-            new SupportedLanguage("Markdown", new PythonSyntaxLanguage(), ".md"),
-            new SupportedLanguage("Python", new PythonSyntaxLanguage(), ".py"),
+            new SupportedLanguage("Markdown", "#ffd600", FileType.TEXT, new PythonSyntaxLanguage(), ".md"),
+            new SupportedLanguage("Python", "#f47d44", FileType.TEXT, new PythonSyntaxLanguage(), ".py"),
+            new SupportedLanguage("Note", "#e46764", FileType.INK, null, ".notes"),
         };
 
         public static void AddLanguageSupport(FileOpenPicker openPicker)
@@ -35,19 +37,31 @@ namespace MarkdownApp.Languages
                 savePicker.FileTypeChoices.Add(lang.Title, lang.Extensions);
             }
         }
+
+        public static IEnumerable<NewFile> GetItemsNewFile()
+        {
+            foreach (SupportedLanguage lang in SupportedLanguages)
+            {
+                yield return new NewFile(lang);
+            }
+        }
     }
 
     public class SupportedLanguage
     {
         public string Title { get; private set; }
         public SyntaxLanguage Syntax { get; private set; }
+        public string Color { get; private set; }
         public string[] Extensions { get; private set; }
+        public FileType FileType { get; private set; }
 
-        public SupportedLanguage(string title, SyntaxLanguage syntax, params string[] extensions)
+        public SupportedLanguage(string title, string color, FileType fileType, SyntaxLanguage syntax, params string[] extensions)
         {
             Title = title;
             Syntax = syntax;
+            Color = color;
             Extensions = extensions;
+            FileType = fileType;
         }
     }
 }

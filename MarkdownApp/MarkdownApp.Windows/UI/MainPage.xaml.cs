@@ -1,5 +1,7 @@
 ﻿using BasicApp.Common;
 using Core.Common;
+using MarkdownApp.Files;
+using MarkdownApp.Languages;
 using MarkdownApp.Storage;
 using System;
 using System.Collections.Generic;
@@ -37,33 +39,54 @@ namespace MarkdownApp
         protected async override Task LoadState(LoadStateEventArgs e)
         {
             // TODO: Assign a bindable collection of items to this.DefaultViewModel["Items"]
-            var items = new ObservableCollection<FileInfo>();
 
-            var test = new FileInfo(fullPath: "C:/test/abc.txt", printErrors: true);
-            items.Add(test);
+            var newFiles = new ObservableCollection<IDataItem>();
+            foreach (var item in LanguageSupport.GetItemsNewFile())
+            {
+                newFiles.Add(item);
+            }
+            this.DefaultViewModel["NewFiles"] = newFiles;
 
-            foreach (FileInfo file in Files.RecentFiles)
+
+            var recentFiles = new ObservableCollection<RecentFile>();
+            recentFiles.Add(new RecentFile(fullPath: "C:/test/abc.txt", printErrors: true));
+            foreach (RecentFile file in FileStorage.RecentFiles)
             {
                 file.PrintErrors = true;
-                items.Add(file);
+                recentFiles.Add(file);
             }
-            
-            this.DefaultViewModel["Items"] = items;
+            this.DefaultViewModel["RecentFiles"] = recentFiles;
+        }
+
+        public async Task PickFile()
+        {
+            // Open a text file.
+            Windows.Storage.Pickers.FileOpenPicker open = new Windows.Storage.Pickers.FileOpenPicker();
+            open.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
+            LanguageSupport.AddLanguageSupport(open);
+
+            Windows.Storage.StorageFile storageFile = await open.PickSingleFileAsync();
+            if (storageFile != null)
+            {
+                RecentFile file = new RecentFile(storageFile: storageFile, printErrors: true);
+                await OpenFile(file);
+            }
         }
 
         public async Task OpenFile(FileActivatedEventArgs e)
         {
-            FileInfo info = await Files.RegisterFile(e);
+            RecentFile info = await FileStorage.RegisterFile(e);
             // Log._Test(info);
-            if (info != null)
-            {
-                await OpenFile(info);
-            }
+            await OpenFile(info);
         }
 
-        public async Task OpenFile(FileInfo info)
+        public async Task OpenFile(RecentFile info)
         {
-            await info.Check();
+            if (info != null)
+            {
+                await info.Check();
+            }
+
             if (info != null && info.IsValid)
             {
                 Frame.Navigate(typeof(MarkdownEditPage), info);
@@ -74,10 +97,16 @@ namespace MarkdownApp
             }
         }
 
-        private async void itemGridView_ItemClick(object sender, ItemClickEventArgs e)
+        private async void GridViewRecent_ItemClick(object sender, ItemClickEventArgs e)
         {
             //Log._Test(e.ClickedItem);
-            await OpenFile(e.ClickedItem as FileInfo);
+            await OpenFile(e.ClickedItem as RecentFile);
+        }
+
+        private async void GridViewNew_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            //Log._Test(e.ClickedItem);
+            await OpenFile(e.ClickedItem as RecentFile);
         }
     }
 }

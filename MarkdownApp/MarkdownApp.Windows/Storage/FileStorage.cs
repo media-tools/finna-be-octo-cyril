@@ -9,11 +9,11 @@ using Windows.Storage;
 
 namespace MarkdownApp.Storage
 {
-    public static class Files
+    public static class FileStorage
     {
         private static string KEY_FILES = "test_files";
 
-        public static List<FileInfo> RecentFiles { get { return InternalConfig.RecentFiles; } }
+        public static List<RecentFile> RecentFiles { get { return InternalConfig.RecentFiles; } }
 
         private static FilesConfig InternalConfig = new FilesConfig();
 
@@ -43,17 +43,17 @@ namespace MarkdownApp.Storage
         private class FilesConfig
         {
             [JsonProperty("recent_files")]
-            public List<FileInfo> RecentFiles = new List<FileInfo>();
+            public List<RecentFile> RecentFiles = new List<RecentFile>();
         }
 
-        public static async Task<FileInfo> RegisterFile(Windows.ApplicationModel.Activation.FileActivatedEventArgs e)
+        public static async Task<RecentFile> RegisterFile(Windows.ApplicationModel.Activation.FileActivatedEventArgs e)
         {
             foreach (IStorageItem storageItem in e.Files)
             {
                 if (storageItem is IStorageFile)
                 {
                     //Log._Test(storageItem.Path);
-                    FileInfo file = new FileInfo(storageFile: storageItem as IStorageFile, printErrors: true);
+                    RecentFile file = new RecentFile(storageFile: storageItem as IStorageFile, printErrors: true);
                     await file.Check();
                     if (file.IsValid)
                     {

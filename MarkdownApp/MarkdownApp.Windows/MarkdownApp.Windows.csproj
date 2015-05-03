@@ -122,9 +122,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Files\FileInfo.cs" />
+    <Compile Include="Languages\FileType.cs" />
+    <Compile Include="Files\NewFile.cs" />
+    <Compile Include="Files\RecentFile.cs" />
     <Compile Include="Files\IDataItem.cs" />
-    <Compile Include="Storage\Files.cs" />
+    <Compile Include="Storage\FileStorage.cs" />
     <Compile Include="Storage\Settings.cs" />
     <Compile Include="UI\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

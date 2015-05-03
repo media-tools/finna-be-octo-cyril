@@ -12,7 +12,8 @@
 
     <common:BasicPage.Resources>
         <!-- Collection of items displayed by this page -->
-        <CollectionViewSource x:Name="itemsViewSource" Source="{Binding Items, Mode=TwoWay}"/>
+        <CollectionViewSource x:Name="ViewSourceRecentFiles" Source="{Binding RecentFiles, Mode=TwoWay}"/>
+        <CollectionViewSource x:Name="ViewSourceNewFiles" Source="{Binding NewFiles, Mode=TwoWay}"/>
     </common:BasicPage.Resources>
 
     <!--
@@ -29,50 +30,96 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="140"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="46" />
         </Grid.RowDefinitions>
 
-        <!-- Horizontal scrolling grid -->
-        <GridView
-            x:Name="itemGridView"
-            AutomationProperties.AutomationId="ItemsGridView"
-            AutomationProperties.Name="Items"
-            TabIndex="1"
-            Grid.RowSpan="2"
-            Padding="116,136,116,46"
-            ItemsSource="{Binding Source={StaticResource itemsViewSource}}"
-            ItemClick="itemGridView_ItemClick"
-            IsItemClickEnabled="True"
-            SelectionMode="None"
-            IsSwipeEnabled="false">
-            <GridView.ItemTemplate>
-                <DataTemplate>
-                    <Grid HorizontalAlignment="Left" Width="300" Height="100">
-                        <Grid.Background>
-                            <SolidColorBrush Color="#ffff0000" />
-                            <!-- <ImageBrush Stretch="None" ImageSource="Assets/background_top.png" AlignmentY="Top" AlignmentX="Center"/> -->
-                        </Grid.Background>
-                        <StackPanel VerticalAlignment="Bottom" Background="Gray" Opacity="0.7" Margin="20,0,0,0">
-                            <TextBlock Text="{Binding Title}" Foreground="White" Opacity="1.0" Style="{StaticResource BaseTextBlockStyle}" Height="50" Margin="15,15,15,0" FontWeight="SemiBold" FontSize="18"/>
-                            <TextBlock Text="{Binding Subtitle}" Foreground="White" Opacity="1.0" Style="{StaticResource BaseTextBlockStyle}" Height="25" TextWrapping="NoWrap" Margin="15,0,15,15" FontSize="12"/>
-                        </StackPanel>
-                    </Grid>
-                    <!--
-                    <Grid HorizontalAlignment="Left" Width="250" Height="250">
-                        <Border Background="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}">
-                            <Image Source="{Binding ImagePath}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}"/>
-                        </Border>
-                        <StackPanel VerticalAlignment="Bottom" Background="{ThemeResource ListViewItemOverlayBackgroundThemeBrush}">
-                            <TextBlock Text="{Binding Title}" Foreground="{ThemeResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource BaseTextBlockStyle}" Height="60" Margin="15,0,15,0" FontWeight="SemiBold"/>
-                            <TextBlock Text="{Binding Subtitle}" Foreground="{ThemeResource ListViewItemOverlaySecondaryForegroundThemeBrush}" Style="{StaticResource BaseTextBlockStyle}" TextWrapping="NoWrap" Margin="15,0,15,10" FontSize="12"/>
-                        </StackPanel>
-                    </Grid>
-                    -->
-                </DataTemplate>
-            </GridView.ItemTemplate>
-        </GridView>
+        <Grid
+            Grid.Row="1">
+            <Grid.ChildrenTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition/>
+                </TransitionCollection>
+            </Grid.ChildrenTransitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="116" />
+                <ColumnDefinition Width="330" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="116" />
+            </Grid.ColumnDefinitions>
+            <!-- Horizontal scrolling grid -->
+
+            <!--Padding="116,136,116,46"-->
+            <GridView
+                Grid.Column="1"
+                x:Name="GridViewNew"
+                AutomationProperties.AutomationId="GridViewNew"
+                AutomationProperties.Name="GridViewNew"
+                TabIndex="1"
+                ItemsSource="{Binding Source={StaticResource ViewSourceNewFiles}}"
+                ItemClick="GridViewNew_ItemClick"
+                IsItemClickEnabled="True"
+                SelectionMode="None"
+                IsSwipeEnabled="false">
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid HorizontalAlignment="Left" Width="300" Height="100">
+                            <Grid.Background>
+                                <SolidColorBrush Color="{Binding Color}" />
+                                <!-- <ImageBrush Stretch="None" ImageSource="Assets/background_top.png" AlignmentY="Top" AlignmentX="Center"/> -->
+                            </Grid.Background>
+                            <StackPanel VerticalAlignment="Bottom" Background="Gray" Opacity="0.9" Margin="20,0,0,0">
+                                <TextBlock Text="{Binding Title}" Foreground="White" Opacity="1.0" Style="{StaticResource BaseTextBlockStyle}" Height="50" Margin="15,15,15,0" FontWeight="Normal" FontSize="22"/>
+                                <TextBlock Text="{Binding Subtitle}" Foreground="White" Opacity="1.0" Style="{StaticResource BaseTextBlockStyle}" Height="25" TextWrapping="NoWrap" Margin="15,0,15,15" FontSize="12"/>
+                            </StackPanel>
+                        </Grid>
+
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+
+            <!-- Horizontal scrolling grid -->
+            <GridView
+                Grid.Column="2"
+                x:Name="GridViewRecent"
+                AutomationProperties.AutomationId="GridViewRecent"
+                AutomationProperties.Name="GridViewRecent"
+                TabIndex="1"
+                Grid.RowSpan="2"
+                ItemsSource="{Binding Source={StaticResource ViewSourceRecentFiles}}"
+                ItemClick="GridViewRecent_ItemClick"
+                IsItemClickEnabled="True"
+                SelectionMode="None"
+                IsSwipeEnabled="false">
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid HorizontalAlignment="Left" Width="300" Height="100">
+                            <Grid.Background>
+                                <SolidColorBrush Color="#ffff0000" />
+                                <!-- <ImageBrush Stretch="None" ImageSource="Assets/background_top.png" AlignmentY="Top" AlignmentX="Center"/> -->
+                            </Grid.Background>
+                            <StackPanel VerticalAlignment="Bottom" Background="Gray" Opacity="0.7" Margin="20,0,0,0">
+                                <TextBlock Text="{Binding Title}" Foreground="White" Opacity="1.0" Style="{StaticResource BaseTextBlockStyle}" Height="50" Margin="15,15,15,0" FontWeight="SemiBold" FontSize="18"/>
+                                <TextBlock Text="{Binding Subtitle}" Foreground="White" Opacity="1.0" Style="{StaticResource BaseTextBlockStyle}" Height="25" TextWrapping="NoWrap" Margin="15,0,15,15" FontSize="12"/>
+                            </StackPanel>
+                        </Grid>
+                        <!--
+                        <Grid HorizontalAlignment="Left" Width="250" Height="250">
+                            <Border Background="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}">
+                                <Image Source="{Binding ImagePath}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}"/>
+                            </Border>
+                            <StackPanel VerticalAlignment="Bottom" Background="{ThemeResource ListViewItemOverlayBackgroundThemeBrush}">
+                                <TextBlock Text="{Binding Title}" Foreground="{ThemeResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource BaseTextBlockStyle}" Height="60" Margin="15,0,15,0" FontWeight="SemiBold"/>
+                                <TextBlock Text="{Binding Subtitle}" Foreground="{ThemeResource ListViewItemOverlaySecondaryForegroundThemeBrush}" Style="{StaticResource BaseTextBlockStyle}" TextWrapping="NoWrap" Margin="15,0,15,10" FontSize="12"/>
+                            </StackPanel>
+                        </Grid>
+                        -->
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </Grid>
 
         <!-- Back button and page title -->
-        <Grid>
+        <Grid Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="*"/>

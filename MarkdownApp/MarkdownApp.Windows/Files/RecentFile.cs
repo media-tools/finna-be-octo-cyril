@@ -10,7 +10,7 @@ using Windows.Storage.AccessCache;
 
 namespace MarkdownApp
 {
-    public class FileInfo : IDataItem
+    public class RecentFile : IDataItem
     {
         [JsonProperty("full_path")]
         public string FullPath { get; set; }
@@ -30,19 +30,19 @@ namespace MarkdownApp
         [JsonIgnore]
         public bool IsFullPathSupported { get; private set; }
 
-        public FileInfo()
+        public RecentFile()
         {
             PrintErrors = false;
         }
 
-        public FileInfo(IStorageFile storageFile, bool printErrors)
+        public RecentFile(IStorageFile storageFile, bool printErrors)
         {
             StorageFile = storageFile;
             Token = StorageApplicationPermissions.FutureAccessList.Add(file: storageFile);
             PrintErrors = printErrors;
         }
 
-        public FileInfo(string fullPath, bool printErrors)
+        public RecentFile(string fullPath, bool printErrors)
         {
             FullPath = fullPath;
             PrintErrors = printErrors;

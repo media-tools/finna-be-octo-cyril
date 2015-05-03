@@ -27,7 +27,7 @@ namespace MarkdownApp
             this.Suspending += OnSuspending;
 
             Settings.Load();
-            Files.Load();
+            FileStorage.Load();
         }
 
         private Frame CreateRootFrame()
@@ -123,14 +123,8 @@ namespace MarkdownApp
                 }
             }
 
-            var p = rootFrame.Content as MainPage;
-            /*
-            p.FileEvent = e;
-            p.ProtocolEvent = null;
-            p.NavigateToFilePage();
-            */
-            //Log._Test(e);
-            await p.OpenFile(e);
+            MainPage page = rootFrame.Content as MainPage;
+            await page.OpenFile(e);
 
             //Log.Error("test: " + (rootFrame.Content as MarkdownEditPage));
             //var p = rootFrame.Content as MainPage;

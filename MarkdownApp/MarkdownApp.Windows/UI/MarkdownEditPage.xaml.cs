@@ -21,7 +21,7 @@ namespace MarkdownApp
     /// </summary>
     public sealed partial class MarkdownEditPage : BasicPage
     {
-        public FileInfo CurrentFile;
+        public RecentFile CurrentFile;
 
         public MarkdownEditPage()
         {
@@ -32,19 +32,12 @@ namespace MarkdownApp
 
         private async void OpenButton_Click(object sender, RoutedEventArgs e)
         {
-            // Open a text file.
-            Windows.Storage.Pickers.FileOpenPicker open = new Windows.Storage.Pickers.FileOpenPicker();
-            open.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
-            LanguageSupport.AddLanguageSupport(open);
-
-            Windows.Storage.StorageFile file = await open.PickSingleFileAsync();
-            CurrentFile = new FileInfo(storageFile: file, printErrors: true);
-            await LoadFile();
+            Frame.Navigate(typeof(MainPage), null);
         }
 
         protected async override Task LoadState(LoadStateEventArgs e)
         {
-            CurrentFile = e.NavigationParameter as FileInfo;
+            CurrentFile = e.NavigationParameter as RecentFile;
             await LoadFile();
         }
 
