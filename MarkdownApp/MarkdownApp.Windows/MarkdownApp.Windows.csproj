@@ -181,17 +181,20 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Core.Markdown, Version=1.0.5601.2742, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Core.Markdown.0.1.3\lib\portable-net45+win\Core.Markdown.dll</HintPath>
+      <HintPath>..\packages\Core.Markdown.0.1.4\lib\portable-net45+win\Core.Markdown.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Core.Portable, Version=1.0.5601.4215, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Core.Common.0.1.96\lib\portable-net40+win\Core.Portable.dll</HintPath>
+    <Reference Include="Core.Portable, Version=1.0.5601.21639, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Core.Common.0.1.98\lib\portable-win81\Core.Portable.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\netcore45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>

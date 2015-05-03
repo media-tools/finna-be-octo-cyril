@@ -1,6 +1,7 @@
 ﻿using MarkdownApp.Files;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace MarkdownApp.Languages
         private static List<SupportedLanguage> SupportedLanguages = new List<SupportedLanguage>
         {
             new SupportedLanguage("Markdown", "#ffd600", FileType.TEXT, new PythonSyntaxLanguage(), ".md"),
+            new SupportedLanguage("Plain Text", "#b163a3", FileType.TEXT, new PythonSyntaxLanguage(), ".txt"),
             new SupportedLanguage("Python", "#f47d44", FileType.TEXT, new PythonSyntaxLanguage(), ".py"),
             new SupportedLanguage("Note", "#e46764", FileType.INK, null, ".notes"),
         };
@@ -45,6 +47,22 @@ namespace MarkdownApp.Languages
                 yield return new NewFile(lang);
             }
         }
+
+        public static SupportedLanguage FindByExtension(string fullPath)
+        {
+            if (fullPath != null)
+            {
+                string extension = Path.GetExtension(fullPath);
+                foreach (SupportedLanguage lang in SupportedLanguages)
+                {
+                    if (lang.Extensions.Any(e => e == extension))
+                    {
+                        return lang;
+                    }
+                }
+            }
+            return null;
+        }
     }
 
     public class SupportedLanguage
@@ -62,6 +80,11 @@ namespace MarkdownApp.Languages
             Color = color;
             Extensions = extensions;
             FileType = fileType;
+        }
+
+        public override string ToString()
+        {
+            return Title;
         }
     }
 }

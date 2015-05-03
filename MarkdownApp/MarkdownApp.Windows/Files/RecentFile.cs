@@ -1,4 +1,5 @@
 ﻿using Core.Common;
+using MarkdownApp.Languages;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,9 @@ namespace MarkdownApp
 
         [JsonIgnore]
         public bool IsFullPathSupported { get; private set; }
+
+        [JsonIgnore]
+        public SupportedLanguage Language { get; private set; }
 
         public RecentFile()
         {
@@ -92,6 +96,15 @@ namespace MarkdownApp
             IsFullPathSupported = FullPath != null;
             IsValid = StorageFile != null && Token != null;
 
+            Language = LanguageSupport.FindByExtension(fullPath: FullPath);
+            if (Language != null)
+            {
+                BackgroundColor = Language.Color;
+            }
+            else {
+                BackgroundColor = "#ffffffff";
+            }
+            //Log._Test(BackgroundColor);
         }
 
         public async Task<string> ReadText()

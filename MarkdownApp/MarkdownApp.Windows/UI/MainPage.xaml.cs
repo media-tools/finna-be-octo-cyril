@@ -49,10 +49,11 @@ namespace MarkdownApp
 
 
             var recentFiles = new ObservableCollection<RecentFile>();
-            recentFiles.Add(new RecentFile(fullPath: "C:/test/abc.txt", printErrors: true));
+            // recentFiles.Add(new RecentFile(fullPath: "C:/test/abc.txt", printErrors: true));
             foreach (RecentFile file in FileStorage.RecentFiles)
             {
                 file.PrintErrors = true;
+                await file.Check();
                 recentFiles.Add(file);
             }
             this.DefaultViewModel["RecentFiles"] = recentFiles;

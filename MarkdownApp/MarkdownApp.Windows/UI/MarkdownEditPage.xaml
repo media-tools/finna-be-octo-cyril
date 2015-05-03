@@ -60,15 +60,17 @@
             </TransitionCollection>
         </Grid.ChildrenTransitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="100"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
+            <AppBarButton Label="Open file" Icon="Home" Click="OpenButton_Click" IsCompact="True" />
+            <!--
             <Button Content="Open file" Click="OpenButton_Click" />
-            <!--<AppBarButton Label="Open file" Icon="OpenFile" Click="OpenButton_Click" />-->
             <Button Content="Save file" Click="SaveButton_Click" />
             <Button Content="Preview" Flyout="{StaticResource SharedFlyoutResource}" />
             <Button Content="Test" Click="TestButton_Click" />
+            -->
         </StackPanel>
 
         <!--<RichEditBox x:Name="editor" Grid.Row="1" CharacterSpacing="1" IsSpellCheckEnabled="True" IsTextPredictionEnabled="True" BorderThickness="5" BorderBrush="Black"/>
