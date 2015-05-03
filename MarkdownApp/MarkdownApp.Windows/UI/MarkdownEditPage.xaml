@@ -60,11 +60,13 @@
             </TransitionCollection>
         </Grid.ChildrenTransitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="90"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
-            <AppBarButton Label="Open file" Icon="Home" Click="OpenButton_Click" IsCompact="True" />
+            <AppBarButton Label="Open" Icon="Home" Click="OpenButton_Click" IsCompact="False" />
+            <AppBarButton Label="Save" Icon="Save" Click="SaveButton_Click" IsCompact="False" />
+            <AppBarButton Label="Save As" Icon="SaveLocal" Click="SaveAsButton_Click" IsCompact="False" />
             <!--
             <Button Content="Open file" Click="OpenButton_Click" />
             <Button Content="Save file" Click="SaveButton_Click" />

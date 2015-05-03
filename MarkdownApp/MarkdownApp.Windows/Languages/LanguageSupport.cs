@@ -36,7 +36,7 @@ namespace MarkdownApp.Languages
         {
             foreach (SupportedLanguage lang in SupportedLanguages)
             {
-                savePicker.FileTypeChoices.Add(lang.Title, lang.Extensions);
+                lang.AddLanguageSupport(savePicker);
             }
         }
 
@@ -80,6 +80,11 @@ namespace MarkdownApp.Languages
             Color = color;
             Extensions = extensions;
             FileType = fileType;
+        }
+
+        public void AddLanguageSupport(FileSavePicker savePicker)
+        {
+            savePicker.FileTypeChoices.Add(Title, Extensions);
         }
 
         public override string ToString()

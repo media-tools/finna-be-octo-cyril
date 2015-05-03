@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="MarkdownApp.Windows.App">
-      <m2:VisualElements DisplayName="Markdown" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png" Description="Markdown" ForegroundText="light" BackgroundColor="#2c8bce" ToastCapable="false">
+      <m2:VisualElements DisplayName="Markdown" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png" Description="Markdown" ForegroundText="light" BackgroundColor="#006bb6" ToastCapable="false">
         <m2:SplashScreen Image="Assets\SplashScreen.png" />
       </m2:VisualElements>
       <Extensions>

@@ -20,9 +20,16 @@
                 </ResourceDictionary>
                 -->
                 <ResourceDictionary x:Key="Light">
-                    <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#2c8bce" />
+                    <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#006bb6" />
 
                     <SolidColorBrush x:Key="ApplicationForegroundThemeBrush" Color="#ffffff" />
+
+                    <SolidColorBrush x:Key="AppBarItemBackgroundThemeBrush" Color="Transparent" />
+                    <SolidColorBrush x:Key="AppBarItemDisabledForegroundThemeBrush" Color="#66FFFFFF" />
+                    <SolidColorBrush x:Key="AppBarItemForegroundThemeBrush" Color="#FFFFFFFF" />
+                    <SolidColorBrush x:Key="AppBarItemPointerOverBackgroundThemeBrush" Color="#21FFFFFF" />
+                    <SolidColorBrush x:Key="AppBarItemPointerOverForegroundThemeBrush" Color="#FFFFFFFF" />
+                    <SolidColorBrush x:Key="AppBarItemPressedForegroundThemeBrush" Color="#FF000000" />
 
                     <SolidColorBrush x:Key="ButtonBackgroundThemeBrush" Color="#bbffffff" />
                     <SolidColorBrush x:Key="ButtonBorderThemeBrush" Color="#33000000" />

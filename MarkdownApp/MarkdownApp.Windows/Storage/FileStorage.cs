@@ -46,6 +46,28 @@ namespace MarkdownApp.Storage
             public List<RecentFile> RecentFiles = new List<RecentFile>();
         }
 
+        public static async Task<RecentFile> RegisterFile(IStorageFile storageFile)
+        {
+            RecentFile file = new RecentFile(storageFile: storageFile, printErrors: true);
+            await file.Check();
+            if (file.IsValid)
+            {
+                if (file.IsFullPathSupported)
+                {
+                    if (!RecentFiles.Any(rf => rf.FullPath == file.FullPath))
+                    {
+                        RecentFiles.Add(file);
+                        Save();
+                    }
+                }
+                return file;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static async Task<RecentFile> RegisterFile(Windows.ApplicationModel.Activation.FileActivatedEventArgs e)
         {
             foreach (IStorageItem storageItem in e.Files)
@@ -53,19 +75,10 @@ namespace MarkdownApp.Storage
                 if (storageItem is IStorageFile)
                 {
                     //Log._Test(storageItem.Path);
-                    RecentFile file = new RecentFile(storageFile: storageItem as IStorageFile, printErrors: true);
-                    await file.Check();
-                    if (file.IsValid)
+                    RecentFile result = await RegisterFile(storageFile: storageItem as IStorageFile);
+                    if (result != null)
                     {
-                        if (file.IsFullPathSupported)
-                        {
-                            if (!RecentFiles.Any(rf => rf.FullPath == file.FullPath))
-                            {
-                                RecentFiles.Add(file);
-                                Save();
-                            }
-                        }
-                        return file;
+                        return result;
                     }
                 }
                 else

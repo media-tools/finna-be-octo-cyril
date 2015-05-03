@@ -2,6 +2,7 @@
 using Core.Common;
 using Core.Markdown;
 using MarkdownApp.Languages;
+using MarkdownApp.Storage;
 using System;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -35,6 +36,50 @@ namespace MarkdownApp
             Frame.Navigate(typeof(MainPage), null);
         }
 
+        private async void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            await SaveFile();
+        }
+
+        private async void SaveAsButton_Click(object sender, RoutedEventArgs e)
+        {
+            FileSavePicker savePicker = new FileSavePicker();
+            savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+
+            // Dropdown of file types the user can save the file as
+            if (CurrentFile.Language != null)
+                CurrentFile.Language.AddLanguageSupport(savePicker);
+            else
+                LanguageSupport.AddLanguageSupport(savePicker);
+
+            // Default file name if the user does not type one in or select a file to replace
+            savePicker.SuggestedFileName = "New Document";
+
+            StorageFile file = await savePicker.PickSaveFileAsync();
+            if (file != null)
+            {
+                CurrentFile = await FileStorage.RegisterFile(storageFile: file);
+                await SaveFile();
+            }
+        }
+
+        private async void TestButton_Click(object sender, RoutedEventArgs e)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                    new CoreDispatcherPriority(), () =>
+                    {
+
+                        ///RtfConversion.ToHtml(editor.Document);
+                    });
+        }
+
+        private async void OutputView_Loaded(object sender, RoutedEventArgs e)
+        {
+            string markdownCode = editor.TextLF;
+            string html = await Markdown.MarkdownToHTML(markdownCode: markdownCode);
+            OutputView.NavigateToString(html);
+        }
+
         protected async override Task LoadState(LoadStateEventArgs e)
         {
             CurrentFile = e.NavigationParameter as RecentFile;
@@ -56,58 +101,23 @@ namespace MarkdownApp
             }
         }
 
-        private async void TestButton_Click(object sender, RoutedEventArgs e)
+        private async Task SaveFile()
         {
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                    new CoreDispatcherPriority(), () =>
-                    {
+            // Prevent updates to the remote version of the file until we 
+            // finish making changes and call CompleteUpdatesAsync.
+            CachedFileManager.DeferUpdates(CurrentFile.StorageFile);
 
-                        ///RtfConversion.ToHtml(editor.Document);
-                    });
-        }
+            // open the file
+            // IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.ReadWrite);
 
-        private async void OutputView_Loaded(object sender, RoutedEventArgs e)
-        {
-            string markdownCode = editor.TextLF;
-            string html = await Markdown.MarkdownToHTML(markdownCode: markdownCode);
-            OutputView.NavigateToString(html);
-        }
+            await FileIO.WriteTextAsync(CurrentFile.StorageFile, editor.TextLF);
 
-        private async void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            //if (((ApplicationView.Value != ApplicationViewState.Snapped) ||
-            //      ApplicationView.TryUnsnap()))
-            //{
-
-            FileSavePicker savePicker = new FileSavePicker();
-            savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
-
-            // Dropdown of file types the user can save the file as
-            LanguageSupport.AddLanguageSupport(savePicker);
-
-            // Default file name if the user does not type one in or select a file to replace
-            savePicker.SuggestedFileName = "New Document";
-
-            StorageFile file = await savePicker.PickSaveFileAsync();
-            if (file != null)
+            // Let Windows know that we're finished changing the file so the 
+            // other app can update the remote version of the file.
+            FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(CurrentFile.StorageFile);
+            if (status != FileUpdateStatus.Complete)
             {
-                // Prevent updates to the remote version of the file until we 
-                // finish making changes and call CompleteUpdatesAsync.
-                CachedFileManager.DeferUpdates(file);
-
-                // open the file
-                // IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.ReadWrite);
-
-                await FileIO.WriteTextAsync(file, editor.TextLF);
-
-                // Let Windows know that we're finished changing the file so the 
-                // other app can update the remote version of the file.
-                FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
-                if (status != FileUpdateStatus.Complete)
-                {
-                    Windows.UI.Popups.MessageDialog errorBox = new Windows.UI.Popups.MessageDialog("File " + file.Name + " couldn't be saved.");
-                    await errorBox.ShowAsync();
-                }
+                Log.FatalError("File couldn't be saved: ", CurrentFile.FullPath);
             }
         }
 

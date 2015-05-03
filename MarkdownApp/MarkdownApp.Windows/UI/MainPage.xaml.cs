@@ -69,7 +69,7 @@ namespace MarkdownApp
             Windows.Storage.StorageFile storageFile = await open.PickSingleFileAsync();
             if (storageFile != null)
             {
-                RecentFile file = new RecentFile(storageFile: storageFile, printErrors: true);
+                RecentFile file = await FileStorage.RegisterFile(storageFile: storageFile);
                 await OpenFile(file);
             }
         }
