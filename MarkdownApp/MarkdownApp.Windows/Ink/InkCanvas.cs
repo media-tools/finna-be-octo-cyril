@@ -8,13 +8,17 @@ using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Input;
 using Windows.UI.Input.Inking;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 
+
+// The Templated Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234235
+
 namespace MarkdownApp.Ink
 {
-    public class InkCanvas
+    public sealed class InkCanvas : Control
     {
         // Create the InkManager instance.
         InkManager _inkManager = new Windows.UI.Input.Inking.InkManager();
@@ -25,29 +29,28 @@ namespace MarkdownApp.Ink
         uint _touchID = 0;
 
         // the canvas
-        Windows.UI.Xaml.Controls.Canvas Canvas;
+        // declared inxaml      // Windows.UI.Xaml.Controls.Canvas Canvas;
 
         // the thickness
         public int StrokeThickness { get; set; }
 
         public Color StrokeColor { get; set; }
 
-        public InkCanvas(Windows.UI.Xaml.Controls.Canvas canvas)
+        public InkCanvas()
         {
-            this.Canvas = canvas;
+            this.DefaultStyleKey = typeof(InkCanvas);
+
 
             // default values
             StrokeThickness = 5;
             StrokeColor = Colors.Red;
 
             // Add pointer event handlers to the Canvas object.
-            Canvas.PointerPressed += new PointerEventHandler(Canvas_PointerPressed);
+            ThisCanvas.PointerPressed += new PointerEventHandler(Canvas_PointerPressed);
             Canvas.PointerMoved += new PointerEventHandler(Canvas_PointerMoved);
             Canvas.PointerReleased += new PointerEventHandler(Canvas_PointerReleased);
             Canvas.PointerExited += new PointerEventHandler(Canvas_PointerReleased);
         }
-
-
 
         // Initiate ink capture.
         public void Canvas_PointerPressed(object sender, PointerRoutedEventArgs e)

@@ -1,6 +1,7 @@
 ﻿<app_ui:BasicEditPage
     xmlns:app_ui="using:MarkdownApp.UI"
     xmlns:basic_common="using:BasicApp.Common"
+    xmlns:app_ink="using:MarkdownApp.Ink"
     x:Class="MarkdownApp.UI.InkEditPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -38,7 +39,7 @@
                 </Grid.ColumnDefinitions>
 
                 <ScrollViewer Name="ScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                    <Canvas Name="MainCanvas" Width="2000" Height="2828" Background="White" Margin="0,0,0,0" />
+                    <app_ink:InkCanvas Name="MainCanvas" Width="2000" Height="2828" Background="White" Margin="0,0,0,0" />
                 </ScrollViewer>
 
             </Grid>

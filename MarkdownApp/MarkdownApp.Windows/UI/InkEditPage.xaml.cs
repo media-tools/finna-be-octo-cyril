@@ -26,12 +26,12 @@ namespace MarkdownApp.UI
 {
     public sealed partial class InkEditPage : BasicEditPage
     {
-        private readonly InkCanvas inkCanvas;
+        private readonly InkCanvas2 inkCanvas;
 
         public InkEditPage()
         {
             this.InitializeComponent();
-            inkCanvas = new InkCanvas(MainCanvas);
+            //inkCanvas = new InkCanvas2(MainCanvas);
             
         }
 
