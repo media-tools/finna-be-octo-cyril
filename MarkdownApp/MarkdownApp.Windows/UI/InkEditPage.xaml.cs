@@ -32,6 +32,7 @@ namespace MarkdownApp.UI
         {
             this.InitializeComponent();
             inkCanvas = new InkCanvas(MainCanvas);
+            
         }
 
         protected async override Task<string> GetContent()

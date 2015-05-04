@@ -52,22 +52,29 @@ namespace MarkdownApp.UI
 
         public async Task OpenFile(RecentFile info)
         {
-            if (info != null)
+            try
             {
-                await info.Check();
-            }
+                if (info != null)
+                {
+                    await info.Check();
+                }
 
-            if (info != null && info.IsValid)
-            {
-                if (info.Language.FileType == FileType.TEXT)
-                Frame.Navigate(typeof(MarkdownEditPage), info);
-                else if (info.Language.FileType == FileType.INK)
+                if (info != null && info.IsValid)
+                {
+                    if (info.Language.FileType == FileType.TEXT)
+                        Frame.Navigate(typeof(MarkdownEditPage), info);
+                    else if (info.Language.FileType == FileType.INK)
                         Frame.Navigate(typeof(InkEditPage), info);
-                else Log.FatalError("Unknown file type.");
+                    else Log.FatalError("Unknown file type.");
+                }
+                else
+                {
+                    Log.FatalError("The file is not valid.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Log.FatalError("The file is not valid.");
+                Log.Error(ex);
             }
         }
 
@@ -80,38 +87,53 @@ namespace MarkdownApp.UI
 
         private async Task PickFile()
         {
-            FileOpenPicker openPicker = new FileOpenPicker();
-            openPicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
-
-            LanguageSupport.AddLanguageSupport(openPicker);
-
-            Windows.Storage.StorageFile storageFile = await openPicker.PickSingleFileAsync();
-            if (storageFile != null)
+            try
             {
-                RecentFile file = await FileStorage.RegisterFile(storageFile: storageFile);
-                await OpenFile(file);
+                FileOpenPicker openPicker = new FileOpenPicker();
+                openPicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+
+                LanguageSupport.AddLanguageSupport(openPicker);
+
+                Windows.Storage.StorageFile storageFile = await openPicker.PickSingleFileAsync();
+                if (storageFile != null)
+                {
+                    RecentFile file = await FileStorage.RegisterFile(storageFile: storageFile);
+                    await OpenFile(file);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
             }
         }
 
         private async Task NewFile(NewFileItem item)
         {
-            FileSavePicker savePicker = new FileSavePicker();
-            savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
-
-            // Dropdown of file types the user can save the file as
-            if (item != null)
-                item.Language.AddLanguageSupport(savePicker);
-            else
-                LanguageSupport.AddLanguageSupport(savePicker);
-
-            // Default file name if the user does not type one in or select a file to replace
-            savePicker.SuggestedFileName = "New Document";
-
-            StorageFile storageFile = await savePicker.PickSaveFileAsync();
-            if (storageFile != null)
+            try
             {
-                RecentFile file = await FileStorage.RegisterFile(storageFile: storageFile);
-                await OpenFile(file);
+                FileSavePicker savePicker = new FileSavePicker();
+                savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+
+                // Dropdown of file types the user can save the file as
+                if (item != null)
+                    item.Language.AddLanguageSupport(savePicker);
+                else
+                    LanguageSupport.AddLanguageSupport(savePicker);
+
+                // Default file name if the user does not type one in or select a file to replace
+                savePicker.SuggestedFileName = "New Document";
+
+                StorageFile storageFile = await savePicker.PickSaveFileAsync();
+                if (storageFile != null)
+                {
+                    await FileIO.WriteTextAsync(storageFile, string.Empty);
+                    RecentFile file = await FileStorage.RegisterFile(storageFile: storageFile);
+                    await OpenFile(file);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
             }
         }
 
