@@ -39,7 +39,7 @@
                 </Grid.ColumnDefinitions>
 
                 <ScrollViewer Name="ScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                    <app_ink:InkCanvas Name="MainCanvas" Width="2000" Height="2828" Background="White" Margin="0,0,0,0" />
+                    <app_ink:InkCanvas Name="Canvas" Width="2000" Height="2828" Background="White" Margin="0,0,0,0" />
                 </ScrollViewer>
 
             </Grid>

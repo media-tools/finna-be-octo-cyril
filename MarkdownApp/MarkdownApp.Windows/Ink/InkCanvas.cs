@@ -8,6 +8,7 @@ using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Input;
 using Windows.UI.Input.Inking;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
@@ -18,6 +19,7 @@ using Windows.UI.Xaml.Shapes;
 
 namespace MarkdownApp.Ink
 {
+    [TemplatePart(Name = "Canvas", Type = typeof(Canvas))]
     public sealed class InkCanvas : Control
     {
         // Create the InkManager instance.
@@ -29,6 +31,7 @@ namespace MarkdownApp.Ink
         uint _touchID = 0;
 
         // the canvas
+        private Canvas part_Canvas;
         // declared inxaml      // Windows.UI.Xaml.Controls.Canvas Canvas;
 
         // the thickness
@@ -44,19 +47,32 @@ namespace MarkdownApp.Ink
             // default values
             StrokeThickness = 5;
             StrokeColor = Colors.Red;
+        }
+
+        protected override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            // Code to get the Template parts as instance member
+            part_Canvas = GetTemplateChild("Canvas") as Canvas;
+
+            if (part_Canvas == null)
+            {
+                throw new NullReferenceException("Template part not available: part_Canvas");
+            }
 
             // Add pointer event handlers to the Canvas object.
-            ThisCanvas.PointerPressed += new PointerEventHandler(Canvas_PointerPressed);
-            Canvas.PointerMoved += new PointerEventHandler(Canvas_PointerMoved);
-            Canvas.PointerReleased += new PointerEventHandler(Canvas_PointerReleased);
-            Canvas.PointerExited += new PointerEventHandler(Canvas_PointerReleased);
+            part_Canvas.PointerPressed += new PointerEventHandler(Canvas_PointerPressed);
+            part_Canvas.PointerMoved += new PointerEventHandler(Canvas_PointerMoved);
+            part_Canvas.PointerReleased += new PointerEventHandler(Canvas_PointerReleased);
+            part_Canvas.PointerExited += new PointerEventHandler(Canvas_PointerReleased);
         }
 
         // Initiate ink capture.
         public void Canvas_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             // Get information about the pointer location.
-            PointerPoint pt = e.GetCurrentPoint(Canvas);
+            PointerPoint pt = e.GetCurrentPoint(part_Canvas);
             _previousContactPt = pt.Position;
 
             // Accept input only from a pen or mouse with the left button pressed. 
@@ -84,7 +100,7 @@ namespace MarkdownApp.Ink
         {
             if (e.Pointer.PointerId == _penID)
             {
-                PointerPoint pt = e.GetCurrentPoint(Canvas);
+                PointerPoint pt = e.GetCurrentPoint(part_Canvas);
 
                 // Render a red line on the canvas as the pointer moves. 
                 // Distance() is an application-defined function that tests
@@ -107,7 +123,7 @@ namespace MarkdownApp.Ink
 
                     // Draw the line on the canvas by adding the Line object as
                     // a child of the Canvas object.
-                    Canvas.Children.Add(line);
+                    part_Canvas.Children.Add(line);
 
                     // Pass the pointer information to the InkManager.
                     _inkManager.ProcessPointerUpdate(pt);
@@ -128,7 +144,7 @@ namespace MarkdownApp.Ink
         {
             if (e.Pointer.PointerId == _penID)
             {
-                PointerPoint pt = e.GetCurrentPoint(Canvas);
+                PointerPoint pt = e.GetCurrentPoint(part_Canvas);
 
                 // Pass the pointer information to the InkManager. 
                 _inkManager.ProcessPointerUp(pt);
@@ -152,7 +168,7 @@ namespace MarkdownApp.Ink
         private void RenderAllStrokes()
         {
             // Clear the canvas.
-            Canvas.Children.Clear();
+            part_Canvas.Children.Clear();
 
             // Get the InkStroke objects.
             IReadOnlyList<InkStroke> inkStrokes = _inkManager.GetStrokes();
@@ -204,7 +220,7 @@ namespace MarkdownApp.Ink
                 path.Data = pathGeometry;
 
                 // Render the path by adding it as a child of the Canvas object.
-                Canvas.Children.Add(path);
+                part_Canvas.Children.Add(path);
             }
         }
 
