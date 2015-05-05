@@ -54,7 +54,7 @@ namespace MarkdownApp.Ink
             base.OnApplyTemplate();
 
             // Code to get the Template parts as instance member
-            part_Canvas = GetTemplateChild("Canvas") as Canvas;
+            part_Canvas = GetTemplateChild("part_Canvas") as Canvas;
 
             if (part_Canvas == null)
             {

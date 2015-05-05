@@ -11,7 +11,7 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
-                        <Canvas Name="ThisCanvas" Width="2000" Height="2828" Background="White" Margin="0,0,0,0" />
+                        <Canvas Name="part_Canvas" Width="2000" Height="2828" Background="White" Margin="0,0,0,0" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
