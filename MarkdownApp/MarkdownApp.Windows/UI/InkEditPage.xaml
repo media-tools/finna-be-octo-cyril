@@ -48,6 +48,7 @@
                 SelectionMode="None"
                 IsSwipeEnabled="False"
                 Background="Transparent"
+                IsTapEnabled="False"
                 >
                 <GridView.ItemContainerStyle>
                     <Style
