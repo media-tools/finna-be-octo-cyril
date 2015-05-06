@@ -47,7 +47,7 @@
                 IsItemClickEnabled="True"
                 SelectionMode="None"
                 IsSwipeEnabled="False"
-                Background="DarkGray"
+                Margin="35,35,35,35"
                 >
                 <ListView.ItemTemplate>
                     <DataTemplate>
