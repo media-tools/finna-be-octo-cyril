@@ -5,6 +5,7 @@ using MarkdownApp.Languages;
 using MarkdownApp.Storage;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -33,6 +34,21 @@ namespace MarkdownApp.UI
             this.InitializeComponent();
             //inkCanvas = new InkCanvas2(MainCanvas);
             
+            
+        }
+
+        protected async override Task LoadState(LoadStateEventArgs e)
+        {
+            // TODO: Assign a bindable collection of items to this.DefaultViewModel["Items"]
+
+            var pages = new ObservableCollection<InkPage>();
+            for (int i = 1; i <= 10; ++i)
+            {
+                pages.Add(new InkPage(i));
+            }
+            this.DefaultViewModel["Pages"] = pages;
+
+            Log._Test("abc");
         }
 
         protected async override Task<string> GetContent()
@@ -42,7 +58,6 @@ namespace MarkdownApp.UI
 
         protected async override Task SetContent(string content)
         {
-
         }
     }
 }

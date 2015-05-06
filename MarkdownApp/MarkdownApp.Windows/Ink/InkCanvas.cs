@@ -39,6 +39,8 @@ namespace MarkdownApp.Ink
 
         public Color StrokeColor { get; set; }
 
+        public int PageNumber { get; set; }
+
         public InkCanvas()
         {
             this.DefaultStyleKey = typeof(InkCanvas);

@@ -10,6 +10,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <!-- Collection of items displayed by this page -->
+        <CollectionViewSource x:Name="SourcePages" Source="{Binding Pages, Mode=TwoWay}"/>
+    </Page.Resources>
+
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ChildrenTransitions>
             <TransitionCollection>
@@ -18,7 +24,7 @@
         </Grid.ChildrenTransitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="90"/>
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
             <AppBarButton Label="Open" Icon="Home" Click="OpenButton_Click" IsCompact="False" />
@@ -26,8 +32,41 @@
             <AppBarButton Label="Save As" Icon="SaveLocal" Click="SaveAsButton_Click" IsCompact="False" />
         </StackPanel>
 
-        <Border Grid.Row="1" Margin="0" BorderThickness="0" BorderBrush="LightGray">
-            <Grid>
+        <!-- Horizontal scrolling grid -->
+        <GridView
+                Grid.Row="1"
+                x:Name="GridViewPages"
+                AutomationProperties.AutomationId="GridViewPages"
+                AutomationProperties.Name="GridViewPages"
+                ItemsSource="{Binding Source={StaticResource SourcePages}}"
+                IsItemClickEnabled="False"
+                SelectionMode="None"
+                IsSwipeEnabled="false"
+            Background="Red"
+                >
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <Grid HorizontalAlignment="Left" Width="300" Height="100">
+                        <Grid.Background>
+                            <SolidColorBrush Color="Brown" />
+                            <!-- <ImageBrush Stretch="None" ImageSource="Assets/background_top.png" AlignmentY="Top" AlignmentX="Center"/> -->
+                        </Grid.Background>
+                        <StackPanel VerticalAlignment="Bottom" Background="Gray" Opacity="0.85" Margin="20,0,0,0">
+                            <TextBlock Text="{Binding PageNumber}" Foreground="White" Opacity="1.0" Style="{StaticResource BaseTextBlockStyle}" Height="45" Margin="15,20,15,0" FontWeight="SemiBold" FontSize="18"/>
+                        </StackPanel>
+
+                    <!--Name="ScrollViewer"-->
+                    <!--Name="Canvas"-->
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="Yellow">
+                        <app_ink:InkCanvas PageNumber="{Binding PageNumber}"  Width="2000" Height="2828" Background="White" Margin="0,0,0,0" />
+                    </ScrollViewer>
+
+                    </Grid>
+                    
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+        <!--<Grid>
                 <Grid.ChildrenTransitions>
                     <TransitionCollection>
                         <EntranceThemeTransition/>
@@ -42,7 +81,6 @@
                     <app_ink:InkCanvas Name="Canvas" Width="2000" Height="2828" Background="White" Margin="0,0,0,0" />
                 </ScrollViewer>
 
-            </Grid>
-        </Border>
+            </Grid>-->
     </Grid>
 </app_ui:BasicEditPage>
