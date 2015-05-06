@@ -39,6 +39,7 @@ namespace MarkdownApp.UI
 
         protected async override Task LoadState(LoadStateEventArgs e)
         {
+            await base.LoadState(e);
             // TODO: Assign a bindable collection of items to this.DefaultViewModel["Items"]
 
             var pages = new ObservableCollection<InkPage>();
@@ -47,8 +48,24 @@ namespace MarkdownApp.UI
                 pages.Add(new InkPage(i));
             }
             this.DefaultViewModel["Pages"] = pages;
+            //GridViewPages.ItemsSource = pages;
 
             Log._Test("abc");
+
+
+
+
+
+
+            var recentFiles = new ObservableCollection<IDataItem>();
+            // recentFiles.Add(new RecentFile(fullPath: "C:/test/abc.txt", printErrors: true));
+            foreach (RecentFile file in FileStorage.RecentFiles)
+            {
+                file.PrintErrors = true;
+                await file.Check();
+                recentFiles.Add(file);
+            }
+            this.DefaultViewModel["RecentFiles"] = recentFiles;
         }
 
         protected async override Task<string> GetContent()

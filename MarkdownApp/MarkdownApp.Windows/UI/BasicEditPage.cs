@@ -57,6 +57,8 @@ namespace MarkdownApp.UI
 
         protected async override Task LoadState(LoadStateEventArgs e)
         {
+            await base.LoadState(e);
+
             CurrentFile = e.NavigationParameter as RecentFile;
             await LoadFile();
         }
