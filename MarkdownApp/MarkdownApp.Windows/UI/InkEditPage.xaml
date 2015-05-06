@@ -34,9 +34,12 @@
         </StackPanel>
 
         <!-- Horizontal scrolling grid -->
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer
+            Grid.Row="1"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto"
+            >
             <ListView
-                Grid.Row="1"
                 x:Name="GridViewPages"
                 AutomationProperties.AutomationId="GridViewPages"
                 AutomationProperties.Name="GridViewPages"
