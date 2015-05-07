@@ -22,8 +22,10 @@ namespace MarkdownApp.Ink
     [TemplatePart(Name = "Canvas", Type = typeof(Canvas))]
     public sealed class InkCanvas : Control
     {
-        // Create the InkManager instance.
-        InkManager _inkManager = new Windows.UI.Input.Inking.InkManager();
+        // the InkManager instance
+        InkManager _inkManager = new InkManager();
+        // the SerializedInk instance
+        SerializedInk _serializedInk = new SerializedInk();
 
         // internal variables
         Point _previousContactPt;
@@ -233,11 +235,107 @@ namespace MarkdownApp.Ink
                 // Render the path by adding it as a child of the Canvas object.
                 part_Canvas.Children.Add(path);
             }
+
+            foreach (SerializedStroke inkStroke in _serializedInk.Strokes)
+            {
+                PathGeometry pathGeometry = new PathGeometry();
+                PathFigureCollection pathFigures = new PathFigureCollection();
+                PathFigure pathFigure = new PathFigure();
+                PathSegmentCollection pathSegments = new PathSegmentCollection();
+
+                // Create a path and define its attributes.
+                Windows.UI.Xaml.Shapes.Path path = new Windows.UI.Xaml.Shapes.Path();
+                path.Stroke = new SolidColorBrush(StrokeColor);
+                path.StrokeThickness = StrokeThickness;
+
+                // Get the stroke segments.
+                IEnumerable<SerializedStrokeSegment> segments;
+                segments = inkStroke.Segments;
+
+                // Process each stroke segment.
+                bool first = true;
+                foreach (SerializedStrokeSegment segment in segments)
+                {
+                    // The first segment is the starting point for the path.
+                    if (first)
+                    {
+                        pathFigure.StartPoint = segment.BezierControlPoint1;
+                        first = false;
+                    }
+
+                    // Copy each ink segment into a bezier segment.
+                    BezierSegment bezSegment = new BezierSegment();
+                    bezSegment.Point1 = segment.BezierControlPoint1;
+                    bezSegment.Point2 = segment.BezierControlPoint2;
+                    bezSegment.Point3 = segment.Position;
+
+                    // Add the bezier segment to the path.
+                    pathSegments.Add(bezSegment);
+                }
+
+                // Build the path geometerty object.
+                pathFigure.Segments = pathSegments;
+                pathFigures.Add(pathFigure);
+                pathGeometry.Figures = pathFigures;
+
+                // Assign the path geometry object as the path data.
+                path.Data = pathGeometry;
+
+                // Render the path by adding it as a child of the Canvas object.
+                part_Canvas.Children.Add(path);
+            }
         }
 
         private double Distance(Point currentContact, Point previousContact)
         {
             return Math.Sqrt(Math.Pow(currentContact.X - previousContact.X, 2) + Math.Pow(currentContact.Y - previousContact.Y, 2));
+        }
+
+        public void Load(SerializedInk serializedInk)
+        {
+            _inkManager = new InkManager();
+            _serializedInk = serializedInk;
+        }
+
+        public SerializedInk Save()
+        {
+            // Get the InkStroke objects.
+            IReadOnlyList<InkStroke> inkStrokes = _inkManager.GetStrokes();
+
+            SerializedInk serialized = new SerializedInk();
+
+            // Process each stroke.
+            foreach (InkStroke inkStroke in inkStrokes)
+            {
+                SerializedStroke stroke = new SerializedStroke();
+
+                // Get the stroke segments.
+                IReadOnlyList<InkStrokeRenderingSegment> segments;
+                segments = inkStroke.GetRenderingSegments();
+
+                // Process each stroke segment.
+                foreach (InkStrokeRenderingSegment segment in segments)
+                {
+                    // Copy each ink segment into a bezier segment.
+                    BezierSegment bezSegment = new BezierSegment();
+                    bezSegment.Point1 = segment.BezierControlPoint1;
+                    bezSegment.Point2 = segment.BezierControlPoint2;
+                    bezSegment.Point3 = segment.Position;
+
+                    // Add the bezier segment to the path.
+                    stroke.Add(new SerializedStrokeSegment
+                    {
+                        BezierControlPoint1 = segment.BezierControlPoint1,
+                        BezierControlPoint2 = segment.BezierControlPoint2,
+                        Position = segment.Position,
+                        Pressure = segment.Pressure,
+                    });
+                }
+
+                serialized.Add(stroke);
+            }
+
+            return serialized;
         }
     }
 }

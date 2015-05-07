@@ -127,6 +127,7 @@
     <Compile Include="Ink\InkCanvas.cs" />
     <Compile Include="Ink\InkCanvas2.cs" />
     <Compile Include="Ink\InkPage.cs" />
+    <Compile Include="Ink\SerializedInk.cs" />
     <Compile Include="Languages\FileType.cs" />
     <Compile Include="Files\NewFileItem.cs" />
     <Compile Include="Files\RecentFile.cs" />
