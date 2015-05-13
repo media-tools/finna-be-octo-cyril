@@ -29,7 +29,14 @@ namespace MarkdownApp.UI
 
         protected async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            await SaveFile();
+            try
+            {
+                await SaveFile();
+            }
+            catch (Exception ex)
+            {
+                Log.FatalError(ex.Message);
+            }
         }
 
         protected async void SaveAsButton_Click(object sender, RoutedEventArgs e)
