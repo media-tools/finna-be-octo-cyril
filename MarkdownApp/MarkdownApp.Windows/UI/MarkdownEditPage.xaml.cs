@@ -46,6 +46,10 @@ namespace MarkdownApp.UI
             OutputView.NavigateToString(html);
         }
 
+        protected async override Task BeforeLoadFile(LoadStateEventArgs e)
+        {
+        }
+
         protected async override Task<string> GetContent()
         {
             return editor.TextLF;

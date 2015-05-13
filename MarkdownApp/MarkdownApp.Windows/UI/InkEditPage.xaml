@@ -51,25 +51,16 @@
                 IsTapEnabled="False"
                 >
                 <GridView.ItemContainerStyle>
-                    <Style
-                TargetType="GridViewItem">
-                        <Setter
-                    Property="HorizontalAlignment"
-                    Value="Center" />
-                        <Setter
-                    Property="VerticalAlignment"
-                    Value="Center" />
-                        <Setter
-                    Property="Padding"
-                    Value="0" />
-                        <Setter
-                    Property="Margin"
-                    Value="50" />
+                    <Style TargetType="GridViewItem">
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="Margin" Value="50" />
                     </Style>
                 </GridView.ItemContainerStyle>
                 <GridView.ItemTemplate>
                     <DataTemplate>
-                        <app_ink:InkCanvas PageNumber="{Binding PageNumber}" Instance="{Binding Instance, Mode=TwoWay}" Width="2000" Height="2828" Background="White" Margin="0,0,0,0" />
+                        <app_ink:InkCanvas PageNumber="{Binding PageNumber}" PreloadedInk="{Binding PreloadedInk}" Width="2000" Height="2828" Background="White" Margin="0,0,0,0" />
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>

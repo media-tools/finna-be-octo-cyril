@@ -10,7 +10,22 @@ namespace MarkdownApp.Ink
     {
         public int PageNumber { get; set; }
 
-        public InkCanvas Instance { get; set; }
+        public SerializedInk PreloadedInk { get; set; }
+
+        public InkCanvas Instance
+        {
+            get
+            {
+                foreach (InkCanvas inkCanvas in InkCanvas.Instances)
+                {
+                    if (inkCanvas.PageNumber == PageNumber)
+                    {
+                        return inkCanvas;
+                    }
+                }
+                return null;
+            }
+        }
 
         public InkPage(int pageNumber)
         {

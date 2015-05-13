@@ -32,22 +32,15 @@ namespace MarkdownApp.UI
         public InkEditPage()
         {
             this.InitializeComponent();
-            //inkCanvas = new InkCanvas2(MainCanvas);
-            
-            
         }
 
-        protected async override Task LoadState(LoadStateEventArgs e)
+        protected async override Task BeforeLoadFile(LoadStateEventArgs e)
         {
-            await base.LoadState(e);
             // TODO: Assign a bindable collection of items to this.DefaultViewModel["Items"]
-
             var pages = new ObservableCollection<InkPage>();
-            for (int i = 1; i <= 10; ++i)
-            {
-                pages.Add(new InkPage(i));
-            }
             this.DefaultViewModel["Pages"] = pages;
+
+            InkCanvas.Instances.Clear();
         }
 
         protected async override Task<string> GetContent()
@@ -55,14 +48,35 @@ namespace MarkdownApp.UI
             SerializedInkCollection result = new SerializedInkCollection();
             foreach (InkPage page in this.DefaultViewModel["Pages"] as ObservableCollection<InkPage>)
             {
-//result.Add(page.Instance)
-                Log._Test(page.Instance);
+                if (page.Instance != null)
+                {
+                    SerializedInk ink = page.Instance.Save();
+                    if (ink.Strokes.Count > 0)
+                    {
+                        result.Add(ink);
+                        Log._Test("Page ", page.PageNumber, " has ", ink.Strokes.Count, " strokes!");
+                    }
+                }
             }
-            return "";
+            return PortableConfigHelper.WriteConfig(result);
         }
 
         protected async override Task SetContent(string content)
         {
+            SerializedInkCollection collection = PortableConfigHelper.ReadConfig<SerializedInkCollection>(content: ref content);
+            int p = 1;
+            foreach (SerializedInk ink in collection.Pages)
+            {
+                InkPage inkPage = new InkPage(p++);
+                inkPage.PreloadedInk = ink;
+                (this.DefaultViewModel["Pages"] as ObservableCollection<InkPage>).Add(inkPage);
+            }
+
+            for (int q = 0; q < 5; q++)
+            {
+                InkPage inkPage = new InkPage(p + q++);
+                (this.DefaultViewModel["Pages"] as ObservableCollection<InkPage>).Add(inkPage);
+            }
         }
     }
 }

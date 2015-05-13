@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
-
 
 // The Templated Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234235
 
@@ -34,10 +34,9 @@ namespace MarkdownApp.Ink
 
         // the canvas
         private Canvas part_Canvas;
-        // declared inxaml      // Windows.UI.Xaml.Controls.Canvas Canvas;
 
-
-        public InkCanvas Instance { get { return (InkCanvas)GetValue(InstanceProperty); } set { } }
+        // singleton
+        public static List<InkCanvas> Instances = new List<InkCanvas>();
        
         public int PageNumber { get { return (int)GetValue(PageNumberProperty); } set { SetValue(PageNumberProperty, value); } }
 
@@ -45,20 +44,41 @@ namespace MarkdownApp.Ink
 
         public int StrokeThickness { get { return (int)GetValue(StrokeThicknessProperty); } set { SetValue(StrokeThicknessProperty, value); } }
 
+        public SerializedInk PreloadedInk { get { return (SerializedInk)GetValue(PreloadedInkProperty); } set { SetValue(PreloadedInkProperty, value); } }
+
         // Using a DependencyProperty as the backing store for PageNumber.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty InstanceProperty = DependencyProperty.Register("Instance", typeof(InkCanvas), typeof(InkCanvas), new PropertyMetadata(1, PropertyChangedCallback));
         public static readonly DependencyProperty PageNumberProperty = DependencyProperty.Register("PageNumber", typeof(int), typeof(InkCanvas), new PropertyMetadata(1, PropertyChangedCallback));
         public static readonly DependencyProperty StrokeColorProperty = DependencyProperty.Register("StrokeColor", typeof(Color), typeof(InkCanvas), new PropertyMetadata(1, PropertyChangedCallback));
         public static readonly DependencyProperty StrokeThicknessProperty = DependencyProperty.Register("StrokeThickness", typeof(int), typeof(InkCanvas), new PropertyMetadata(1, PropertyChangedCallback));
+        public static readonly DependencyProperty PreloadedInkProperty = DependencyProperty.Register("PreloadedInk", typeof(SerializedInk), typeof(InkCanvas), new PropertyMetadata(1, PreloadedInkCallback));
 
 
-        private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
-        { }
+        private static void PreloadedInkCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            InkCanvas instance = d as InkCanvas;
+            SerializedInk ink = e.NewValue as SerializedInk;
+            if (instance == null)
+            {
+                Log.Error("Error! PreloadedInkCallback: instance == null");
+                return;
+            }
+            if (ink == null)
+            {
+                Log.Error("Error! PreloadedInkCallback: ink == null");
+                return;
+            }
+
+            instance.Load(ink);
+            instance.RenderAllStrokes();
+        }
+
+        private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+        }
 
         public InkCanvas()
         {
             this.DefaultStyleKey = typeof(InkCanvas);
-
 
             // default values
             StrokeThickness = 5;
@@ -82,6 +102,8 @@ namespace MarkdownApp.Ink
             part_Canvas.PointerMoved += new PointerEventHandler(Canvas_PointerMoved);
             part_Canvas.PointerReleased += new PointerEventHandler(Canvas_PointerReleased);
             part_Canvas.PointerExited += new PointerEventHandler(Canvas_PointerReleased);
+
+            Instances.Add(this);
         }
 
         // Initiate ink capture.
@@ -181,7 +203,7 @@ namespace MarkdownApp.Ink
         }
 
         // Render ink strokes as cubic bezier segments.
-        private void RenderAllStrokes()
+        public void RenderAllStrokes()
         {
             // Clear the canvas.
             part_Canvas.Children.Clear();
@@ -305,7 +327,11 @@ namespace MarkdownApp.Ink
             // Get the InkStroke objects.
             IReadOnlyList<InkStroke> inkStrokes = _inkManager.GetStrokes();
 
-            SerializedInk serialized = new SerializedInk();
+            SerializedInk result = new SerializedInk();
+
+            foreach (SerializedStroke inkStroke in _serializedInk.Strokes) {
+                result.Add(inkStroke);
+            }
 
             // Process each stroke.
             foreach (InkStroke inkStroke in inkStrokes)
@@ -335,10 +361,10 @@ namespace MarkdownApp.Ink
                     });
                 }
 
-                serialized.Add(stroke);
+                result.Add(stroke);
             }
 
-            return serialized;
+            return result;
         }
     }
 }

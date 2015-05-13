@@ -54,14 +54,17 @@ namespace MarkdownApp.UI
             }
         }
 
-
-        protected async override Task LoadState(LoadStateEventArgs e)
+        protected async sealed override Task LoadState(LoadStateEventArgs e)
         {
             await base.LoadState(e);
+
+            BeforeLoadFile(e);
 
             CurrentFile = e.NavigationParameter as RecentFile;
             await LoadFile();
         }
+
+        protected abstract Task BeforeLoadFile(LoadStateEventArgs e);
 
         protected abstract Task<string> GetContent();
         protected abstract Task SetContent(string content);

@@ -43,9 +43,9 @@ namespace MarkdownApp.Ink
 
     public class SerializedStrokeSegment
     {
-        [JsonProperty("bezier_control_point_1")]
+        [JsonProperty("bezier_1")]
         public Point BezierControlPoint1 { get; set; }
-        [JsonProperty("bezier_control_point_2")]
+        [JsonProperty("bezier_2")]
         public Point BezierControlPoint2 { get; set; }
         [JsonProperty("position")]
         public Point Position { get; set; }
