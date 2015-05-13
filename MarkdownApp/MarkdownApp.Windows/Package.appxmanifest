@@ -16,6 +16,12 @@
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="MarkdownApp.Windows.App">
       <m2:VisualElements DisplayName="Markdown" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png" Description="Markdown" ForegroundText="light" BackgroundColor="#006bb6" ToastCapable="false">
+        <m2:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" ShortName="Markdown" DefaultSize="wide310x150Logo">
+          <m2:ShowNameOnTiles>
+            <m2:ShowOn Tile="square150x150Logo" />
+            <m2:ShowOn Tile="wide310x150Logo" />
+          </m2:ShowNameOnTiles>
+        </m2:DefaultTile>
         <m2:SplashScreen Image="Assets\SplashScreen.png" />
       </m2:VisualElements>
       <Extensions>
