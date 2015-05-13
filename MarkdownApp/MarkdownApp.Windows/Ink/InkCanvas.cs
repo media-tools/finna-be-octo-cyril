@@ -68,8 +68,13 @@ namespace MarkdownApp.Ink
                 return;
             }
 
+            // load the strokes
             instance.Load(ink);
-            instance.RenderAllStrokes();
+            // render the strokes, if the canvas is initialized
+            if (instance.part_Canvas != null)
+            {
+                instance.RenderAllStrokes();
+            }
         }
 
         private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -97,12 +102,16 @@ namespace MarkdownApp.Ink
                 throw new NullReferenceException("Template part not available: part_Canvas");
             }
 
+            // render the strokes
+            RenderAllStrokes();
+
             // Add pointer event handlers to the Canvas object.
             part_Canvas.PointerPressed += new PointerEventHandler(Canvas_PointerPressed);
             part_Canvas.PointerMoved += new PointerEventHandler(Canvas_PointerMoved);
             part_Canvas.PointerReleased += new PointerEventHandler(Canvas_PointerReleased);
             part_Canvas.PointerExited += new PointerEventHandler(Canvas_PointerReleased);
 
+            // add this instance to the singleton data structure
             Instances.Add(this);
         }
 
