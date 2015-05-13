@@ -52,6 +52,12 @@ namespace MarkdownApp.UI
 
         protected async override Task<string> GetContent()
         {
+            SerializedInkCollection result = new SerializedInkCollection();
+            foreach (InkPage page in this.DefaultViewModel["Pages"] as ObservableCollection<InkPage>)
+            {
+//result.Add(page.Instance)
+                Log._Test(page.Instance);
+            }
             return "";
         }
 

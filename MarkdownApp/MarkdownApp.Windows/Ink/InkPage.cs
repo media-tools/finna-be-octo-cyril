@@ -10,6 +10,8 @@ namespace MarkdownApp.Ink
     {
         public int PageNumber { get; set; }
 
+        public InkCanvas Instance { get; set; }
+
         public InkPage(int pageNumber)
         {
             PageNumber = pageNumber;

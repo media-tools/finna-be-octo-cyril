@@ -8,6 +8,17 @@ using Windows.Foundation;
 
 namespace MarkdownApp.Ink
 {
+    public class SerializedInkCollection
+    {
+        [JsonProperty("pages")]
+        public List<SerializedInk> Pages = new List<SerializedInk>();
+
+        public void Add(SerializedInk serializedInk)
+        {
+            Pages.Add(serializedInk);
+        }
+    }
+
     public class SerializedInk
     {
         [JsonProperty("strokes")]

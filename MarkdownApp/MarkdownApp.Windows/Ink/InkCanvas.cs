@@ -36,7 +36,9 @@ namespace MarkdownApp.Ink
         private Canvas part_Canvas;
         // declared inxaml      // Windows.UI.Xaml.Controls.Canvas Canvas;
 
-        // the thickness
+
+        public InkCanvas Instance { get { return (InkCanvas)GetValue(InstanceProperty); } set { } }
+       
         public int PageNumber { get { return (int)GetValue(PageNumberProperty); } set { SetValue(PageNumberProperty, value); } }
 
         public Color StrokeColor { get { return (Color)GetValue(StrokeColorProperty); } set { SetValue(StrokeColorProperty, value); } }
@@ -44,6 +46,7 @@ namespace MarkdownApp.Ink
         public int StrokeThickness { get { return (int)GetValue(StrokeThicknessProperty); } set { SetValue(StrokeThicknessProperty, value); } }
 
         // Using a DependencyProperty as the backing store for PageNumber.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty InstanceProperty = DependencyProperty.Register("Instance", typeof(InkCanvas), typeof(InkCanvas), new PropertyMetadata(1, PropertyChangedCallback));
         public static readonly DependencyProperty PageNumberProperty = DependencyProperty.Register("PageNumber", typeof(int), typeof(InkCanvas), new PropertyMetadata(1, PropertyChangedCallback));
         public static readonly DependencyProperty StrokeColorProperty = DependencyProperty.Register("StrokeColor", typeof(Color), typeof(InkCanvas), new PropertyMetadata(1, PropertyChangedCallback));
         public static readonly DependencyProperty StrokeThicknessProperty = DependencyProperty.Register("StrokeThickness", typeof(int), typeof(InkCanvas), new PropertyMetadata(1, PropertyChangedCallback));
