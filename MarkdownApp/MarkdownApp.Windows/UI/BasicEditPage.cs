@@ -94,11 +94,12 @@ namespace MarkdownApp.UI
 
         private async Task SaveFile()
         {
+            string content = await GetContent();
+
             // Prevent updates to the remote version of the file until we 
             // finish making changes and call CompleteUpdatesAsync.
             CachedFileManager.DeferUpdates(CurrentFile.StorageFile);
 
-            string content = await GetContent();
             await FileIO.WriteTextAsync(CurrentFile.StorageFile, content);
 
             // Let Windows know that we're finished changing the file so the 

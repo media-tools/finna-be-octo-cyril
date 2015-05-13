@@ -54,7 +54,7 @@ namespace MarkdownApp.UI
                     if (ink.Strokes.Count > 0)
                     {
                         result.Add(ink);
-                        Log._Test("Page ", page.PageNumber, " has ", ink.Strokes.Count, " strokes!");
+                        //Log._Test("Page ", page.PageNumber, " has ", ink.Strokes.Count, " strokes!");
                     }
                 }
             }
