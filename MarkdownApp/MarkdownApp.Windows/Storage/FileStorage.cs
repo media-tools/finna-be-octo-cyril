@@ -46,7 +46,7 @@ namespace MarkdownApp.Storage
             public List<RecentFile> RecentFiles = new List<RecentFile>();
         }
 
-        public static async Task<RecentFile> RegisterFile(IStorageFile storageFile)
+        public static async Task<RecentFile> RegisterFile(IStorageFile storageFile, bool overrideEntry = false)
         {
             RecentFile file = new RecentFile(storageFile: storageFile, printErrors: true);
             await file.Check();
@@ -54,6 +54,10 @@ namespace MarkdownApp.Storage
             {
                 if (file.IsFullPathSupported)
                 {
+                    if (overrideEntry)
+                    {
+                        RecentFiles.RemoveAll(rf => rf.FullPath == file.FullPath);
+                    }
                     if (!RecentFiles.Any(rf => rf.FullPath == file.FullPath))
                     {
                         RecentFiles.Add(file);

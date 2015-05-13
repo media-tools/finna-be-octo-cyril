@@ -127,7 +127,7 @@ namespace MarkdownApp.UI
                 if (storageFile != null)
                 {
                     await FileIO.WriteTextAsync(storageFile, string.Empty);
-                    RecentFile file = await FileStorage.RegisterFile(storageFile: storageFile);
+                    RecentFile file = await FileStorage.RegisterFile(storageFile: storageFile, overrideEntry: true);
                     await OpenFile(file);
                 }
             }

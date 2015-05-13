@@ -43,7 +43,7 @@ namespace MarkdownApp
         public RecentFile(IStorageFile storageFile, bool printErrors)
         {
             StorageFile = storageFile;
-            Token = StorageApplicationPermissions.FutureAccessList.Add(file: storageFile);
+            Token = StorageApplicationPermissions.FutureAccessList.AddOrReplace(file: storageFile);
             PrintErrors = printErrors;
         }
 
