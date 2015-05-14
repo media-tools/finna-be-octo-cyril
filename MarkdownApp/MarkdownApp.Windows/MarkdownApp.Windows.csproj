@@ -208,11 +208,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Core.Markdown, Version=1.0.5601.2746, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Core.Markdown.0.1.9\lib\portable-win81\Core.Markdown.dll</HintPath>
+      <HintPath>..\packages\Core.Markdown.0.1.17\lib\portable-win81\Core.Markdown.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Core.Portable, Version=1.0.5601.30813, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Core.Common.0.1.102\lib\portable-win81\Core.Portable.dll</HintPath>
+    <Reference Include="Core.Portable, Version=1.0.5612.23753, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Core.Common.0.1.110\lib\portable-win81\Core.Portable.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

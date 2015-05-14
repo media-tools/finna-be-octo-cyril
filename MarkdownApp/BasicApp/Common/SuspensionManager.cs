@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Common;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -65,7 +66,14 @@ namespace BasicApp.Common
                     Frame frame;
                     if (weakFrameReference.TryGetTarget(out frame))
                     {
-                        SaveFrameNavigationState(frame);
+                        try
+                        {
+                            SaveFrameNavigationState(frame);
+                        }
+                        catch (SuspensionManagerException ex)
+                        {
+                            Log.Error(ex);
+                        }
                     }
                 }
 
