@@ -47,6 +47,18 @@ namespace MarkdownApp.Storage
             public List<RecentFile> RecentFiles = new List<RecentFile>();
         }
 
+        public static RecentFile GetById(string guid)
+        {
+            foreach (RecentFile file in FileStorage.RecentFiles)
+            {
+                if (guid == file.GUID)
+                {
+                    return file;
+                }
+            }
+            return null;
+        }
+
         public static async Task<RecentFile> RegisterFile(IStorageFile storageFile, bool overrideEntry = false)
         {
             RecentFile file = new RecentFile(storageFile: storageFile, printErrors: true);
