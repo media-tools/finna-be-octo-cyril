@@ -50,7 +50,7 @@ namespace MarkdownApp.UI
             this.DefaultViewModel["RecentFiles"] = recentFiles;
         }
 
-        public async Task OpenFile(RecentFile info)
+        public static async Task OpenFile(Frame frame, RecentFile info)
         {
             try
             {
@@ -62,9 +62,9 @@ namespace MarkdownApp.UI
                 if (info != null && info.IsValid)
                 {
                     if (info.Language.FileType == FileType.TEXT)
-                        Frame.Navigate(typeof(MarkdownEditPage), info);
+                        frame.Navigate(typeof(MarkdownEditPage), info.GUID);
                     else if (info.Language.FileType == FileType.INK)
-                        Frame.Navigate(typeof(InkEditPage), info);
+                        frame.Navigate(typeof(InkEditPage), info.GUID);
                     else Log.FatalError("Unknown file type.");
                 }
                 else
@@ -78,11 +78,11 @@ namespace MarkdownApp.UI
             }
         }
 
-        public async Task OpenFile(FileActivatedEventArgs e)
+        public static async Task OpenFile(Frame frame, FileActivatedEventArgs e)
         {
             RecentFile file = await FileStorage.RegisterFile(e);
             // Log._Test(info);
-            await OpenFile(file);
+            await OpenFile(frame, file);
         }
 
         private async Task PickFile()
@@ -98,7 +98,7 @@ namespace MarkdownApp.UI
                 if (storageFile != null)
                 {
                     RecentFile file = await FileStorage.RegisterFile(storageFile: storageFile);
-                    await OpenFile(file);
+                    await OpenFile(Frame, file);
                 }
             }
             catch (Exception ex)
@@ -128,7 +128,7 @@ namespace MarkdownApp.UI
                 {
                     await FileIO.WriteTextAsync(storageFile, string.Empty);
                     RecentFile file = await FileStorage.RegisterFile(storageFile: storageFile, overrideEntry: true);
-                    await OpenFile(file);
+                    await OpenFile(Frame, file);
                 }
             }
             catch (Exception ex)
@@ -152,7 +152,7 @@ namespace MarkdownApp.UI
         private async void GridViewRecent_ItemClick(object sender, ItemClickEventArgs e)
         {
             //Log._Test(e.ClickedItem);
-            await OpenFile(e.ClickedItem as RecentFile);
+            await OpenFile(Frame, e.ClickedItem as RecentFile);
         }
     }
 }

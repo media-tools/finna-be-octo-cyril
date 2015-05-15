@@ -47,6 +47,28 @@
             </SupportedFileTypes>
           </FileTypeAssociation>
         </Extension>
+        <Extension Category="windows.fileTypeAssociation">
+          <FileTypeAssociation Name="txt">
+            <DisplayName>Plain Text</DisplayName>
+            <Logo>Assets\fileicon-markdown.png</Logo>
+            <InfoTip>Plain Text</InfoTip>
+            <EditFlags OpenIsSafe="true" />
+            <SupportedFileTypes>
+              <FileType ContentType="text/plain">.txt</FileType>
+            </SupportedFileTypes>
+          </FileTypeAssociation>
+        </Extension>
+        <Extension Category="windows.fileTypeAssociation">
+          <FileTypeAssociation Name="py">
+            <DisplayName>Python</DisplayName>
+            <Logo>Assets\fileicon-markdown.png</Logo>
+            <InfoTip>Python</InfoTip>
+            <EditFlags OpenIsSafe="true" />
+            <SupportedFileTypes>
+              <FileType ContentType="application/x-python">.py</FileType>
+            </SupportedFileTypes>
+          </FileTypeAssociation>
+        </Extension>
       </Extensions>
     </Application>
   </Applications>

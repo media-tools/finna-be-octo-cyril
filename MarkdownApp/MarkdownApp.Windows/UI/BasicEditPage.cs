@@ -67,7 +67,7 @@ namespace MarkdownApp.UI
 
             BeforeLoadFile(e);
 
-            CurrentFile = e.NavigationParameter as RecentFile;
+            CurrentFile = FileStorage.GetById(e.NavigationParameter as string);
             await LoadFile();
         }
 

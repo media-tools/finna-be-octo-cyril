@@ -124,11 +124,11 @@ namespace MarkdownApp
                 }
             }
 
-            MainPage page = rootFrame.Content as MainPage;
-            await page.OpenFile(e);
+            //MainPage page = rootFrame.Content as MainPage;
+            //await page.OpenFile(e);
 
-            //Log.Error("test: " + (rootFrame.Content as MarkdownEditPage));
-            //var p = rootFrame.Content as MainPage;
+            await MainPage.OpenFile(rootFrame, e);
+
 
             // Ensure the current window is active
             Window.Current.Activate();

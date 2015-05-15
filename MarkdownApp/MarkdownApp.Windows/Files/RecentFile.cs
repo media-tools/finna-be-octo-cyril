@@ -35,6 +35,9 @@ namespace MarkdownApp
         [JsonIgnore]
         public SupportedLanguage Language { get; private set; }
 
+        [JsonIgnore]
+        public string GUID { get { return FullPath; } }
+
         public RecentFile()
         {
             PrintErrors = false;
