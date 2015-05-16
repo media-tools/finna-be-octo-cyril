@@ -49,8 +49,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Core.Portable, Version=1.0.5613.1651, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Core.Common.0.1.111\lib\portable-net40+sl5+wp80+win8+wpa81\Core.Portable.dll</HintPath>
+    <Reference Include="Core.Portable, Version=1.0.5614.5263, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Core.Common.0.1.116\lib\portable-net40+sl5+wp80+win8+wpa81\Core.Portable.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
