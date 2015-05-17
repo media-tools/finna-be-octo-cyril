@@ -1,4 +1,7 @@
 ﻿using Core.Common;
+using Core.Ink;
+using Core.Math;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +28,7 @@ namespace MarkdownApp.Ink
         // the InkManager instance
         InkManager _inkManager = new InkManager();
         // the SerializedInk instance
-        SerializedInk _serializedInk = new SerializedInk();
+        SerializedCanvas _serializedInk = new SerializedCanvas();
 
         // internal variables
         Point _previousContactPt;
@@ -44,19 +47,19 @@ namespace MarkdownApp.Ink
 
         public int StrokeThickness { get { return (int)GetValue(StrokeThicknessProperty); } set { SetValue(StrokeThicknessProperty, value); } }
 
-        public SerializedInk PreloadedInk { get { return (SerializedInk)GetValue(PreloadedInkProperty); } set { SetValue(PreloadedInkProperty, value); } }
+        public SerializedCanvas PreloadedInk { get { return (SerializedCanvas)GetValue(PreloadedInkProperty); } set { SetValue(PreloadedInkProperty, value); } }
 
         // Using a DependencyProperty as the backing store for PageNumber.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PageNumberProperty = DependencyProperty.Register("PageNumber", typeof(int), typeof(InkCanvas), new PropertyMetadata(1, PropertyChangedCallback));
         public static readonly DependencyProperty StrokeColorProperty = DependencyProperty.Register("StrokeColor", typeof(Color), typeof(InkCanvas), new PropertyMetadata(1, PropertyChangedCallback));
         public static readonly DependencyProperty StrokeThicknessProperty = DependencyProperty.Register("StrokeThickness", typeof(int), typeof(InkCanvas), new PropertyMetadata(1, PropertyChangedCallback));
-        public static readonly DependencyProperty PreloadedInkProperty = DependencyProperty.Register("PreloadedInk", typeof(SerializedInk), typeof(InkCanvas), new PropertyMetadata(1, PreloadedInkCallback));
+        public static readonly DependencyProperty PreloadedInkProperty = DependencyProperty.Register("PreloadedInk", typeof(SerializedCanvas), typeof(InkCanvas), new PropertyMetadata(1, PreloadedInkCallback));
 
 
         private static void PreloadedInkCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             InkCanvas instance = d as InkCanvas;
-            SerializedInk ink = e.NewValue as SerializedInk;
+            SerializedCanvas ink = e.NewValue as SerializedCanvas;
             if (instance == null)
             {
                 Log.Error("Error! PreloadedInkCallback: instance == null");
@@ -70,6 +73,19 @@ namespace MarkdownApp.Ink
 
             // load the strokes
             instance.Load(ink);
+            
+            //Log._Test("instance._serializedInk.Strokes.Count: ", instance._serializedInk.Strokes.Count);
+            //var
+            //SerializerSettings = new JsonSerializerSettings()
+            //{
+            //    ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver(),
+            //    Converters = { new Newtonsoft.Json.Converters.StringEnumConverter { CamelCaseText = true } },
+            //}; 
+            //var a=JsonConvert.SerializeObject(ink, Formatting.Indented, SerializerSettings);
+            //Log._Test(a);
+            
+            
+            
             // render the strokes, if the canvas is initialized
             if (instance.part_Canvas != null)
             {
@@ -293,15 +309,16 @@ namespace MarkdownApp.Ink
                     // The first segment is the starting point for the path.
                     if (first)
                     {
-                        pathFigure.StartPoint = segment.BezierControlPoint1;
+                        pathFigure.StartPoint = segment.BezierControlPoint1.To<Point>();
                         first = false;
                     }
 
                     // Copy each ink segment into a bezier segment.
                     BezierSegment bezSegment = new BezierSegment();
-                    bezSegment.Point1 = segment.BezierControlPoint1;
-                    bezSegment.Point2 = segment.BezierControlPoint2;
-                    bezSegment.Point3 = segment.Position;
+                    bezSegment.Point1 = segment.BezierControlPoint1.To<Point>();
+                    bezSegment.Point2 = segment.BezierControlPoint2.To<Point>();
+                    bezSegment.Point3 = segment.Position.To<Point>();
+                    bezSegment.Point3 = segment.Position.To<Point>();
 
                     // Add the bezier segment to the path.
                     pathSegments.Add(bezSegment);
@@ -325,18 +342,18 @@ namespace MarkdownApp.Ink
             return Math.Sqrt(Math.Pow(currentContact.X - previousContact.X, 2) + Math.Pow(currentContact.Y - previousContact.Y, 2));
         }
 
-        public void Load(SerializedInk serializedInk)
+        public void Load(SerializedCanvas serializedInk)
         {
             _inkManager = new InkManager();
             _serializedInk = serializedInk;
         }
 
-        public SerializedInk Save()
+        public SerializedCanvas Save()
         {
             // Get the InkStroke objects.
             IReadOnlyList<InkStroke> inkStrokes = _inkManager.GetStrokes();
 
-            SerializedInk result = new SerializedInk();
+            SerializedCanvas result = new SerializedCanvas();
 
             foreach (SerializedStroke inkStroke in _serializedInk.Strokes) {
                 result.Add(inkStroke);
@@ -363,9 +380,9 @@ namespace MarkdownApp.Ink
                     // Add the bezier segment to the path.
                     stroke.Add(new SerializedStrokeSegment
                     {
-                        BezierControlPoint1 = segment.BezierControlPoint1,
-                        BezierControlPoint2 = segment.BezierControlPoint2,
-                        Position = segment.Position,
+                        BezierControlPoint1 = PortablePoint.From<Point>(segment.BezierControlPoint1),
+                        BezierControlPoint2 = PortablePoint.From<Point>(segment.BezierControlPoint2),
+                        Position = PortablePoint.From<Point>(segment.Position),
                         Pressure = segment.Pressure,
                     });
                 }

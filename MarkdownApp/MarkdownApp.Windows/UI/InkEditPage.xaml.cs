@@ -1,5 +1,6 @@
 ﻿using BasicApp.Common;
 using Core.Common;
+using Core.Ink;
 using Core.IO;
 using MarkdownApp.Ink;
 using MarkdownApp.Languages;
@@ -46,12 +47,12 @@ namespace MarkdownApp.UI
 
         protected async override Task<string> GetContent()
         {
-            SerializedInkCollection result = new SerializedInkCollection();
+            SerializedCanvasCollection result = new SerializedCanvasCollection();
             foreach (InkPage page in this.DefaultViewModel["Pages"] as ObservableCollection<InkPage>)
             {
                 if (page.Instance != null)
                 {
-                    SerializedInk ink = page.Instance.Save();
+                    SerializedCanvas ink = page.Instance.Save();
                     if (ink.Strokes.Count > 0)
                     {
                         result.Add(ink);
@@ -64,9 +65,9 @@ namespace MarkdownApp.UI
 
         protected async override Task SetContent(string content)
         {
-            SerializedInkCollection collection = PortableConfigHelper.ReadConfig<SerializedInkCollection>(content: ref content);
+            SerializedCanvasCollection collection = PortableConfigHelper.ReadConfig<SerializedCanvasCollection>(content: ref content);
             int p = 1;
-            foreach (SerializedInk ink in collection.Pages)
+            foreach (SerializedCanvas ink in collection.Pages)
             {
                 InkPage inkPage = new InkPage(p++);
                 inkPage.PreloadedInk = ink;
